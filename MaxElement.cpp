@@ -7,7 +7,7 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last) {
     ForwardIterator largest = first;
 
     first ++;
-    for (; first < last; first ++) {
+    for (; first != last; first ++) {
         if (*largest < *first)
             largest = first;
     } 
