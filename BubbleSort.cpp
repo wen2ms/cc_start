@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 
-void bubbleSort(int arr[], int n) {
+void bubble_sort(int arr[], int n) {
     for (int i = 0; i < n - 1; i++) {
         for (int j = 0; j < n - i - 1; j++) {
             if (arr[j] > arr[j + 1]) {
@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
     std::cout << "------------------------------\n";
     std::cout << "I generated bubble sort.\n";
 
-    bubbleSort(arr, n);
+    bubble_sort(arr, n);
 
     std::cout << "Sort array: ";
     for (int i = 0; i < n; i ++) 
