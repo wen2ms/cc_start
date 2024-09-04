@@ -1,6 +1,6 @@
 #include <iostream>
 
-template<class ForwardIterator>
+template <class ForwardIterator>
 ForwardIterator max_element(ForwardIterator first, ForwardIterator last) {
     if (first ==last) return first;
 
