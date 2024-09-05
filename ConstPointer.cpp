@@ -19,9 +19,9 @@ int main(void) {
     std::cout << "---------------------------------------\n";
 
     std::cout << "I distinguished the relationship between constand pointer.\n";
-    std::cout << "ptr1 points: " << *ptr1 << std::endl;
-    std::cout << "ptr2 points: " << *ptr2 << std::endl;
-    std::cout << "ptr3 points: " << *ptr3 << std::endl;
+    std::cout << "ptr1 points: " << *ptr1 << '\n';
+    std::cout << "ptr2 points: " << *ptr2 << '\n';
+    std::cout << "ptr3 points: " << *ptr3 << '\n';
 
     std::cout << "---------------------------------------\n";
 }
