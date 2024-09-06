@@ -2,6 +2,11 @@
 #include <iomanip>
 #include <string>
 
+const int kNameWidth = 15;
+const int kIDWidth = 10;
+const int kAgeWidth = 10;
+const int kTotalScore = 10;
+
 struct Student {
     std::string name;
     const int id;
@@ -15,6 +20,14 @@ struct Teacher {
     Student students;
 };
 
+void display_teachers(const Teacher& teacher) {
+    std::cout << std::left << std::setw(kNameWidth) << teacher.name
+              << std::setw(kIDWidth) << teacher.id
+              << std::setw(kAgeWidth) << teacher.age
+              << std::setw(kNameWidth) << teacher.students.name
+              << std::setw(kTotalScore) << teacher.students.total_score << '\n';
+}
+
 int main(void) {
     Teacher teachers[] = {
         {"Smith", 302, 44, {"Alice", 2000442, 450}},
@@ -22,11 +35,6 @@ int main(void) {
         {"Brown Lee", 603, 26, {"Guass Vasily", 2000001, 600}},
         {"Mike Bilson", 306, 50, {"Jacob Harry", 2000002, 599}}
     };
-
-    const int kNameWidth = 15;
-    const int kIDWidth = 10;
-    const int kAgeWidth = 10;
-    const int kTotalScore = 10;
 
     std::cout << "-----------------------------\n";
     std::cout << "I generated a teacher-student table.\n";
@@ -39,11 +47,7 @@ int main(void) {
     std::cout << std::left << std::string(2*kNameWidth + kIDWidth + kAgeWidth + kTotalScore, '*') << '\n';
 
     for (const Teacher& teacher : teachers) 
-        std::cout << std::left << std::setw(kNameWidth) << teacher.name
-                  << std::setw(kIDWidth) << teacher.id
-                  << std::setw(kAgeWidth) << teacher.age
-                  << std::setw(kNameWidth) << teacher.students.name
-                  << std::setw(kTotalScore) << teacher.students.total_score << '\n';
+        display_teachers(teacher);
 
     std::cout << "-----------------------------\n";
 
