@@ -18,7 +18,7 @@ struct ContactList {
     int num_contacts = 0;
 };
 
-int search_contact(ContactList contact_list, std::string target_name) {
+int search_contact(const ContactList& contact_list, std::string target_name) {
     for (int i = 0; i < contact_list.num_contacts; i ++) {
         if (target_name == contact_list.contacts[i].name)
             return i;
@@ -30,11 +30,9 @@ int search_contact(ContactList contact_list, std::string target_name) {
 int add_contact(ContactList& contact_list, Contact new_contact) {
     if (contact_list.num_contacts == kNumContacts)
     {
-        // std::cout << "add contact fail. contacts full.\n";
-        return 405;
+        return 406;
     } else if (search_contact(contact_list, new_contact.name) != 40400) {
-        // std::cout << "add contact fail. duplicate contacts.\n";
-        return 405;
+        return 407;
     }
 
     contact_list.contacts[contact_list.num_contacts++] = new_contact;
@@ -42,7 +40,7 @@ int add_contact(ContactList& contact_list, Contact new_contact) {
     return 200;
 }
 
-void print_contacts(ContactList& contact_list) {
+void print_contacts(const ContactList& contact_list) {
     std::cout << std::left << std::setw(13) << "name"
               << std::setw(8) << "gender"
               << std::setw(5) << "age"
@@ -53,21 +51,19 @@ void print_contacts(ContactList& contact_list) {
     for (int i = 0; i < contact_list.num_contacts; i ++)
     {
         std::cout << std::left << std::setw(13) << contact_list.contacts[i].name
-                  << std::setw(8) << contact_list.contacts[i].gender
-                  << std::setw(5) << contact_list.contacts[i].age
-                  << std::setw(15) << contact_list.contacts[i].telephone
-                  << contact_list.contacts[i].address << '\n';
+                    << std::setw(8) << (contact_list.contacts[i].gender == 'F' ? "Female" : "Male") 
+                    << std::setw(5) << contact_list.contacts[i].age
+                    << std::setw(15) << contact_list.contacts[i].telephone
+                    << contact_list.contacts[i].address << '\n';
     }
 }
 
 int remove_contact(ContactList& contact_list, std::string target_name) {
     if (contact_list.num_contacts == 0)
     {
-        // std::cout << "remove contact fail. contacts empty.\n";
-        return 405;
+        return 101;
     } else if (search_contact(contact_list, target_name) == 40400) {
-        // std::cout << "remove contact fail. contact not found.\n";
-        return 405;
+        return 102;
     }
 
     for (int i = search_contact(contact_list, target_name); i < contact_list.num_contacts - 1; i ++) {
@@ -96,14 +92,20 @@ void view_title(void) {
     std::cout << "------------------------------\n";
 }
 
-void view_add_contact(ContactList& contact_list) {
-    Contact new_contact;
-
+void view_input(Contact& new_contact) {
     std::cout << "Please input a contact name: ";
     std::cin >> new_contact.name;
 
-    std::cout << "Please input a contact gender(F or M): ";
-    std::cin >> new_contact.gender;
+    while (true) {
+        std::cout << "Please input a contact gender(F or M): ";
+        std::cin >> new_contact.gender;
+
+        if (new_contact.gender == 'F' || new_contact.gender == 'M') {
+            break;
+        } else {
+            std::cout << "input error!\n";
+        }
+    }
 
     std::cout << "Please input a contact age: ";
     std::cin >> new_contact.age;
@@ -113,13 +115,21 @@ void view_add_contact(ContactList& contact_list) {
 
     std::cout << "Please input a contact address: ";
     std::cin >> new_contact.address; 
+}
 
+void view_add_contact(ContactList& contact_list) {
+    Contact new_contact;
+
+    view_input(new_contact);
+    
     int state_code = add_contact(contact_list, new_contact);
 
     if (state_code == 200) {
-        std::cout << "add contact successfully.\n";
-    } else if (state_code == 405) {
-        std::cout << "add contact fail. \n";
+        std::cout << "add contact successfully\n";
+    } else if (state_code == 406) {
+        std::cout << "add contact fail. contacts full\n";
+    } else if (state_code == 407) {
+        std::cout << "add contact fail. duplicate contacts\n";
     }
 }
 
@@ -132,13 +142,15 @@ void view_remove_contact(ContactList& contact_list) {
     int state_code = remove_contact(contact_list, target_name);
 
     if (state_code == 200) {
-        std::cout << "remove contact successfully.\n";
-    } else if (state_code == 405) {
-        std::cout << "remove contact fail. \n";
+        std::cout << "remove contact successfully\n";
+    } else if (state_code == 101) {
+        std::cout << "remove contact fail. contacts empty\n";
+    } else if (state_code == 102) {
+        std::cout << "remove contact fail. contact not found\n";
     }
 }
 
-void view_search_contact(ContactList& contact_list) {
+void view_search_contact(const ContactList& contact_list) {
     std::string search_name;
 
     std::cout << "Please input a contact name: ";
@@ -147,7 +159,7 @@ void view_search_contact(ContactList& contact_list) {
     int search_index = search_contact(contact_list, search_name);
 
     if (search_index != 40400) {
-        std::cout << "search contact successfully.\n";
+        std::cout << "search contact successfully\n";
 
         std::cout << std::left << std::setw(13) << "name"
         << std::setw(8) << "gender"
@@ -162,7 +174,7 @@ void view_search_contact(ContactList& contact_list) {
                 << std::setw(15) << contact_list.contacts[search_index].telephone
                 << contact_list.contacts[search_index].address << '\n';
     } else if (search_index == 40400) {
-        std::cout << "search contact fail.\n";
+        std::cout << "search contact fail. contact not found\n";
     }
 }
 
@@ -176,26 +188,13 @@ void view_modify_contact(ContactList& contact_list) {
     int search_index = search_contact(contact_list, search_name);
 
     if (search_index != 40400) {
-        std::cout << "Please input a contact name: ";
-        std::cin >> modified_contact.name;
-
-        std::cout << "Please input a contact gender(F or M): ";
-        std::cin >> modified_contact.gender;
-
-        std::cout << "Please input a contact age: ";
-        std::cin >> modified_contact.age;
-
-        std::cout << "Please input a contact telephone: ";
-        std::cin >> modified_contact.telephone;
-
-        std::cout << "Please input a contact address: ";
-        std::cin >> modified_contact.address; 
+        view_input(modified_contact);
 
         contact_list.contacts[search_index] = modified_contact;
 
         std::cout << "modify contact successfully\n";
     } else if (search_index == 40400) {
-        std::cout << "modify contact fail. contact not found.\n";
+        std::cout << "modify contact fail. contact not found\n";
     }
 }
 
@@ -203,7 +202,7 @@ void view_clear_contacts(ContactList& contact_list) {
     int state_code = clear_contacts(contact_list);
 
     if (state_code == 200) {
-        std::cout << "clear contacts successfully.\n";
+        std::cout << "clear contacts successfully\n";
     }
 }
 
