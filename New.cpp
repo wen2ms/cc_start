@@ -7,6 +7,9 @@ int main(int agrc, char* argv[]) {
         return 0;
     }
 
+    std::cout << "I generated a example about new\n";
+    std::cout << "---------------------------------\n";
+
     const int kN = agrc - 1;
     int* singleElement = new int(kN);
     std::cout << "Single Element: " << *singleElement << '\n';
@@ -25,6 +28,8 @@ int main(int agrc, char* argv[]) {
 
     delete singleElement;
     delete[] arrayElement;
+
+    std::cout << "---------------------------------\n";
 
     return 0;
 }
