@@ -4,7 +4,7 @@
 int main(int agrc, char* argv[]) {
     if (agrc < 2) {
         std::cout << "Please provide an array of integers as command-line arguments\n";
-        return 0;
+        return 1;
     }
 
     std::cout << "I generated a example about new\n";
