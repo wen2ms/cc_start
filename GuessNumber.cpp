@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include <ctime>
 
+const int kMaxTimes = 6;
+
 int main(void) {
     std::srand(static_cast<unsigned int>(std::time(0)));
 
@@ -13,7 +15,7 @@ int main(void) {
     std::cout << "I have gererated a random number between 1 and 100.\n";
     std::cout << "Can you guess what it is?\n";
 
-    while (guess_times < 5) {
+    while (guess_times < kMaxTimes) {
         std::cout << "Enter your guess: ";
         std::cin >> guess_number;
 
@@ -29,7 +31,7 @@ int main(void) {
         guess_times ++;
     }
 
-    if (guess_times == 5)
+    if (guess_times == kMaxTimes)
         std::cout << "Guess tims exausted!\n";
 
     std::cout << "------------------------------\n";
