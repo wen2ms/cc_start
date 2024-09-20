@@ -1,7 +1,7 @@
 #include <iostream>
-#include "Point.h"
-#include "Circle.h"
-#include "Utilities.h"
+#include "point.h"
+#include "circle.h"
+#include "utilities.h"
 
 int main() {
     std::cout << "I generated a relationship between point and circle relationship\n";

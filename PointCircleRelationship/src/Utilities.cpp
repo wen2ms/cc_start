@@ -1,4 +1,4 @@
-#include "Utilities.h"
+#include "utilities.h"
 
 double euclidean_distance(const Point& a, const Point& b) {
     return std::sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
