@@ -3,8 +3,8 @@
 
 class Person {
   public:
-    Person(const std::string& person_name, int person_age) : name(person_name), age(person_age) {
-        std::cout << "Constructor called: " << "name: " << name << "\tage: " << age << '\n';
+    Person(const std::string& person_name, int person_age) : name_(person_name), age_(person_age) {
+        std::cout << "Constructor called: " << "name: " << name_ << "\tage: " << age_ << '\n';
     }
 
     ~Person() {
@@ -12,8 +12,8 @@ class Person {
     }
 
   private:
-    std::string name;
-    int age;
+    std::string name_;
+    int age_;
 };
 
 int main() {
