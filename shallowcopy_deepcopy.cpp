@@ -3,8 +3,6 @@
 
 class ShallowCopy {
   public:
-    char* data;
-
     ShallowCopy(const char str[]) {
         data = new char[strlen(str) + 1];
         strcpy(data, str);
@@ -17,12 +15,12 @@ class ShallowCopy {
     ~ShallowCopy() {
         delete[] data;
     }
+
+    char* data;
 };
 
 class DeepCopy {
   public:
-    char* data;
-
     DeepCopy(const char str[]) {
         data = new char[strlen(str) + 1];
         strcpy(data, str);
@@ -36,6 +34,8 @@ class DeepCopy {
     ~DeepCopy() {
         delete[] data;
     }
+
+    char* data;
 };
 
 int main() {
