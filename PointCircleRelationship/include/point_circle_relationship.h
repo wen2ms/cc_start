@@ -1,5 +1,5 @@
-#ifndef POINTCIRCLERELATIONSHIP_H
-#define POINTCIRCLERELATIONSHIP_H
+#ifndef POINT_CIRCLE_RELATIONSHIP_H
+#define POINT_CIRCLE_RELATIONSHIP_H
 
 enum PointCircleRelationship {
     kInside = -1,
