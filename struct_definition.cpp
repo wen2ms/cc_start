@@ -1,5 +1,5 @@
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 #include <string>
 
 struct Dog {
@@ -9,7 +9,6 @@ struct Dog {
 };
 
 int main(void) {
-
     Dog picky;
 
     picky.scientific_name = "Dobermann";
@@ -24,16 +23,13 @@ int main(void) {
 
     std::cout << "--------------------------------\n";
     std::cout << "I defined a struct of dog.\n";
-    std::cout << std::left << std::setw(kNameWidth) << "Scientific Name"
-              << std::setw(kAgeWidth) << "Age"
+    std::cout << std::left << std::setw(kNameWidth) << "Scientific Name" << std::setw(kAgeWidth) << "Age"
               << std::setw(kGenderWidth) << "Gender\n";
 
-    std::cout << std::left << std::setw(kNameWidth) << picky.scientific_name
-              << std::setw(kAgeWidth) << picky.age
+    std::cout << std::left << std::setw(kNameWidth) << picky.scientific_name << std::setw(kAgeWidth) << picky.age
               << std::setw(kGenderWidth) << picky.gender << '\n';
 
-    std::cout << std::left << std::setw(kNameWidth) << lucy.scientific_name
-              << std::setw(kAgeWidth) << lucy.age
+    std::cout << std::left << std::setw(kNameWidth) << lucy.scientific_name << std::setw(kAgeWidth) << lucy.age
               << std::setw(kGenderWidth) << lucy.gender << '\n';
 
     std::cout << "--------------------------------\n";

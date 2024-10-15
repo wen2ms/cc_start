@@ -1,5 +1,5 @@
-#include <iostream>
 #include <cmath>
+#include <iostream>
 
 bool is_narcissistic(int number) {
     int sum = 0;
@@ -9,7 +9,7 @@ bool is_narcissistic(int number) {
     while (number > 0) {
         int digit = number % 10;
         sum += std::pow(digit, 3);
-        number /=  10;
+        number /= 10;
     }
     return original_number == sum;
 }
@@ -20,14 +20,14 @@ int main(void) {
     std::cout << "--------------------------------\n";
     std::cout << "Three-digit Narcissistic numbers are: ";
 
-    for (int number = 100; number < 1000; number ++) {
+    for (int number = 100; number < 1000; number++) {
         if (is_narcissistic(number)) {
-            narcissistic_number[number-100] = number;
+            narcissistic_number[number - 100] = number;
             std::cout << number << ' ';
         }
-    } 
+    }
 
-    std::cout << "\n--------------------------------\n";         
+    std::cout << "\n--------------------------------\n";
 
     return 0;
 }

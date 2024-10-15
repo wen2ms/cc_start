@@ -1,7 +1,7 @@
+#include <cstdlib>
+#include <iomanip>
 #include <iostream>
 #include <string>
-#include <iomanip>
-#include <cstdlib>
 
 const int kNumContacts = 1000;
 
@@ -19,7 +19,7 @@ struct ContactList {
 };
 
 int search_contact(const ContactList& contact_list, std::string target_name) {
-    for (int i = 0; i < contact_list.num_contacts; i ++) {
+    for (int i = 0; i < contact_list.num_contacts; i++) {
         if (target_name == contact_list.contacts[i].name)
             return i;
     }
@@ -28,8 +28,7 @@ int search_contact(const ContactList& contact_list, std::string target_name) {
 }
 
 int add_contact(ContactList& contact_list, Contact new_contact) {
-    if (contact_list.num_contacts == kNumContacts)
-    {
+    if (contact_list.num_contacts == kNumContacts) {
         return 406;
     } else if (search_contact(contact_list, new_contact.name) != 40400) {
         return 407;
@@ -41,36 +40,30 @@ int add_contact(ContactList& contact_list, Contact new_contact) {
 }
 
 void print_contacts(const ContactList& contact_list) {
-    std::cout << std::left << std::setw(13) << "name"
-              << std::setw(8) << "gender"
-              << std::setw(5) << "age"
-              << std::setw(15) << "telephone"
+    std::cout << std::left << std::setw(13) << "name" << std::setw(8) << "gender" << std::setw(5) << "age" << std::setw(15)
+              << "telephone"
               << "address" << '\n';
 
     std::cout << std::string(50, '-') << '\n';
-    for (int i = 0; i < contact_list.num_contacts; i ++)
-    {
-        std::cout << std::left << std::setw(13) << contact_list.contacts[i].name
-                    << std::setw(8) << (contact_list.contacts[i].gender == 'F' ? "Female" : "Male") 
-                    << std::setw(5) << contact_list.contacts[i].age
-                    << std::setw(15) << contact_list.contacts[i].telephone
-                    << contact_list.contacts[i].address << '\n';
+    for (int i = 0; i < contact_list.num_contacts; i++) {
+        std::cout << std::left << std::setw(13) << contact_list.contacts[i].name << std::setw(8)
+                  << (contact_list.contacts[i].gender == 'F' ? "Female" : "Male") << std::setw(5) << contact_list.contacts[i].age
+                  << std::setw(15) << contact_list.contacts[i].telephone << contact_list.contacts[i].address << '\n';
     }
 }
 
 int remove_contact(ContactList& contact_list, std::string target_name) {
-    if (contact_list.num_contacts == 0)
-    {
+    if (contact_list.num_contacts == 0) {
         return 101;
     } else if (search_contact(contact_list, target_name) == 40400) {
         return 102;
     }
 
-    for (int i = search_contact(contact_list, target_name); i < contact_list.num_contacts - 1; i ++) {
-        contact_list.contacts[i] = contact_list.contacts[i+1];
+    for (int i = search_contact(contact_list, target_name); i < contact_list.num_contacts - 1; i++) {
+        contact_list.contacts[i] = contact_list.contacts[i + 1];
     }
 
-    contact_list.num_contacts --;
+    contact_list.num_contacts--;
 
     return 200;
 }
@@ -114,14 +107,14 @@ void view_input(Contact& new_contact) {
     std::cin >> new_contact.telephone;
 
     std::cout << "Please input a contact address: ";
-    std::cin >> new_contact.address; 
+    std::cin >> new_contact.address;
 }
 
 void view_add_contact(ContactList& contact_list) {
     Contact new_contact;
 
     view_input(new_contact);
-    
+
     int state_code = add_contact(contact_list, new_contact);
 
     if (state_code == 200) {
@@ -137,7 +130,7 @@ void view_remove_contact(ContactList& contact_list) {
     std::string target_name;
 
     std::cout << "Please input a contact name: ";
-    std::cin >> target_name; 
+    std::cin >> target_name;
 
     int state_code = remove_contact(contact_list, target_name);
 
@@ -154,25 +147,22 @@ void view_search_contact(const ContactList& contact_list) {
     std::string search_name;
 
     std::cout << "Please input a contact name: ";
-    std::cin >> search_name; 
+    std::cin >> search_name;
 
     int search_index = search_contact(contact_list, search_name);
 
     if (search_index != 40400) {
         std::cout << "search contact successfully\n";
 
-        std::cout << std::left << std::setw(13) << "name"
-        << std::setw(8) << "gender"
-        << std::setw(5) << "age"
-        << std::setw(15) << "telephone"
-        << "address" << '\n';
+        std::cout << std::left << std::setw(13) << "name" << std::setw(8) << "gender" << std::setw(5) << "age" << std::setw(15)
+                  << "telephone"
+                  << "address" << '\n';
 
         std::cout << std::string(50, '-') << '\n';
-        std::cout << std::left << std::setw(13) << contact_list.contacts[search_index].name
-                << std::setw(8) << contact_list.contacts[search_index].gender
-                << std::setw(5) << contact_list.contacts[search_index].age
-                << std::setw(15) << contact_list.contacts[search_index].telephone
-                << contact_list.contacts[search_index].address << '\n';
+        std::cout << std::left << std::setw(13) << contact_list.contacts[search_index].name << std::setw(8)
+                  << contact_list.contacts[search_index].gender << std::setw(5) << contact_list.contacts[search_index].age
+                  << std::setw(15) << contact_list.contacts[search_index].telephone << contact_list.contacts[search_index].address
+                  << '\n';
     } else if (search_index == 40400) {
         std::cout << "search contact fail. contact not found\n";
     }
@@ -183,7 +173,7 @@ void view_modify_contact(ContactList& contact_list) {
     Contact modified_contact;
 
     std::cout << "Please input the name of the contact you want to modify: ";
-    std::cin >> search_name; 
+    std::cin >> search_name;
 
     int search_index = search_contact(contact_list, search_name);
 

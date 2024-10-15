@@ -1,5 +1,5 @@
-#include <iostream>
 #include <cstdlib>
+#include <iostream>
 
 void bubble_sort(int arr[], int n) {
     for (int i = 0; i < n - 1; i++) {
@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
     int n = argc - 1;
     int arr[n];
 
-    for (int i = 0; i < n; i ++)
+    for (int i = 0; i < n; i++)
         arr[i] = std::atoi(argv[i + 1]);
 
     std::cout << "------------------------------\n";
@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
     bubble_sort(arr, n);
 
     std::cout << "Sort array: ";
-    for (int i = 0; i < n; i ++) 
+    for (int i = 0; i < n; i++)
         std::cout << arr[i] << ' ';
 
     std::cout << "\n------------------------------\n";

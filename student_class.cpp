@@ -1,9 +1,9 @@
+#include <iomanip>
 #include <iostream>
 #include <string>
-#include <iomanip>
 
 class Student {
-  public: 
+  public:
     Student() : name_("unknown"), student_id_("0") {}
 
     Student(const std::string& name, const std::string& student_id_) : name_(name), student_id_(student_id_) {}

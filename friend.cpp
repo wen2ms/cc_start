@@ -6,7 +6,7 @@ class Dog;
 
 class Cat {
   public:
-    Cat(): name_("Unknown") {}
+    Cat() : name_("Unknown") {}
 
     Cat(std::string name) : name_(name) {}
 
@@ -27,13 +27,13 @@ class Human {
     friend void get_partners_name(Human& human, Dog& dog);
 
     friend void Cat::get_human_name(Human& human);
-    
+
   private:
     std::string name_;
 };
 
 class Dog {
-  public: 
+  public:
     Dog() : name_("Unknown") {}
 
     Dog(std::string name) : name_(name) {}
@@ -49,11 +49,11 @@ class Dog {
 };
 
 void get_partners_name(Human& human, Dog& dog) {
-  std::cout << "Human name: " << human.name_ << " Dog name: " << dog.name_ << '\n';
+    std::cout << "Human name: " << human.name_ << " Dog name: " << dog.name_ << '\n';
 }
 
 void Cat::get_human_name(Human& human) {
-  std::cout << "Human name: " << human.name_ << '\n';
+    std::cout << "Human name: " << human.name_ << '\n';
 }
 
 int main() {

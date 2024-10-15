@@ -1,5 +1,5 @@
-#include <iostream>
 #include <cmath>
+#include <iostream>
 
 class Shape {
   public:
@@ -34,13 +34,13 @@ class Circle : public Shape {
 int main() {
     std::cout << "I generated a abstract class\n";
     std::cout << "---------------------------\n";
-    
+
     Shape* rectangle = new Rectangle(3.0, 4.0);
     Shape* circle = new Circle(3.0);
 
     std::cout << "Area: " << rectangle->cal_area() << '\n';
     std::cout << "Area: " << circle->cal_area() << '\n';
-    
+
     delete rectangle;
     delete circle;
 

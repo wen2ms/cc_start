@@ -12,7 +12,7 @@ class Cube {
 
     double get_width() const {
         return width_;
-    } 
+    }
 
     double get_length() const {
         return length_;
@@ -22,12 +22,12 @@ class Cube {
         if (height_ == cube.get_height() && width_ == cube.get_width() && length_ == cube.get_length()) {
             return true;
         }
-        
+
         return false;
-    }              
+    }
 
     double calculate_area() const {
-        return 2 * (height_ * width_ + height_ * length_ + width_ * length_); 
+        return 2 * (height_ * width_ + height_ * length_ + width_ * length_);
     }
 
     double calculate_volume() const {
@@ -51,7 +51,7 @@ int main() {
 
     std::cout << "Please input the second cube(height, width, length): ";
     std::cin >> height >> width >> length;
-       
+
     Cube cube_b(height, width, length);
 
     if (cube_a.is_same(cube_b)) {

@@ -1,5 +1,5 @@
-#include <iostream>
 #include <cstdlib>
+#include <iostream>
 
 int main(int agrc, char* argv[]) {
     if (agrc < 2) {
@@ -16,12 +16,12 @@ int main(int agrc, char* argv[]) {
 
     int* arrayElement = new int[kN];
 
-    for (int i = 0; i < kN; i ++) {
-        arrayElement[i] = std::atoi(argv[i+1]);
+    for (int i = 0; i < kN; i++) {
+        arrayElement[i] = std::atoi(argv[i + 1]);
     }
-    
+
     std::cout << "Array: ";
-    for (int i = 0; i < kN; i ++) {
+    for (int i = 0; i < kN; i++) {
         std::cout << arrayElement[i] << ' ';
     }
     std::cout << '\n';

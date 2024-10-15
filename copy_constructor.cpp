@@ -11,7 +11,7 @@ class Dog {
 
     Dog(const Dog& dog) : scientific_name_(dog.scientific_name_) {
         std::cout << "copy constructor called\n";
-    } 
+    }
 };
 
 void get_breed(Dog dog) {
@@ -21,7 +21,7 @@ void get_breed(Dog dog) {
 Dog create_dog(const std::string& scientific_name) {
     Dog dog(scientific_name);
 
-    return dog;    
+    return dog;
 }
 
 int main() {

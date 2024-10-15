@@ -1,11 +1,11 @@
 #include <iostream>
 
 class Dog {
-  public: 
+  public:
     Dog(int age) : age_(age) {}
 
     Dog dog_age_increment() {
-        this->age_ ++;
+        this->age_++;
 
         return *this;
     }

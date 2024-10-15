@@ -1,6 +1,7 @@
 #include <iostream>
-#include "point.h"
+
 #include "circle.h"
+#include "point.h"
 #include "utilities.h"
 
 int main() {

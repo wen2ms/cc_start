@@ -1,16 +1,15 @@
-#include <iostream>
 #include <cstdlib>
+#include <iostream>
 
 const double kPI = 3.1415926;
 
 class Circle {
   public:
     int radius_;
-  
+
     double calculate_perimeter(void) {
         return 2 * kPI * radius_;
-    } 
-
+    }
 };
 
 int main(int argc, char* argv[]) {

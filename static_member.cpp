@@ -3,7 +3,7 @@
 class Dog {
   public:
     Dog() {
-        age_ ++;
+        age_++;
     }
 
     static int get_age() {
@@ -22,13 +22,13 @@ int main() {
 
     Dog joy, pee;
 
-    std::cout << "This dog's age is " << joy.get_age() << '\n'; 
+    std::cout << "This dog's age is " << joy.get_age() << '\n';
 
     Dog nic;
 
     std::cout << "This dog's age is " << Dog::get_age() << '\n';
-  
+
     std::cout << "----------------------\n";
 
     return 0;
-} 
+}

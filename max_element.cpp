@@ -2,15 +2,16 @@
 
 template <class ForwardIterator>
 ForwardIterator max_element(ForwardIterator first, ForwardIterator last) {
-    if (first ==last) return first;
+    if (first == last)
+        return first;
 
     ForwardIterator largest = first;
 
-    first ++;
-    for (; first != last; first ++) {
+    first++;
+    for (; first != last; first++) {
         if (*largest < *first)
             largest = first;
-    } 
+    }
 
     return largest;
 }
@@ -24,7 +25,6 @@ int main(void) {
 
     std::cout << "The maximum element is: " << *max_element(arr, arr + n) << '\n';
     std::cout << "------------------------------\n";
-
 
     return 0;
 }

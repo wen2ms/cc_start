@@ -11,5 +11,5 @@ int main(void) {
 
     std::cout << "z = " << (x > y ? x : y) << std::endl;
 
-    return 0; 
+    return 0;
 }

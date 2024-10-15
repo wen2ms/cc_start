@@ -1,14 +1,14 @@
+#include <cstdlib>
 #include <iostream>
 #include <string>
-#include <cstdlib>
 
 void display(const std::string& message) {
     std::cout << "Message: " << message << std::endl;
 }
 
 void display(const std::string& message, int repeat_times) {
-    for (int i = 0; i < repeat_times; i ++)
-        std::cout << "Message" << i+1 << ": " << message << std::endl;
+    for (int i = 0; i < repeat_times; i++)
+        std::cout << "Message" << i + 1 << ": " << message << std::endl;
 }
 
 int main(int argc, char* argv[]) {
