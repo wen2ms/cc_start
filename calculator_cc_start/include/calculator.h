@@ -10,4 +10,4 @@ class Calculator {
     virtual ~Calculator() {}
 };
 
-#endif // CALCULATOR_H
+#endif  // CALCULATOR_H

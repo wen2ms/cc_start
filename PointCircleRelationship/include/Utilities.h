@@ -1,10 +1,11 @@
 #ifndef UTILITIES_H
 #define UTILITIES_H
 
-#include "point.h"
-#include "circle.h"
-#include "point_circle_relationship.h"
 #include <cmath>
+
+#include "circle.h"
+#include "point.h"
+#include "point_circle_relationship.h"
 
 double euclidean_distance(const Point& a, const Point& b);
 

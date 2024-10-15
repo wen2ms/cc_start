@@ -20,7 +20,7 @@ class CalculatorApp : public QWidget {
     void on_divide_clicked();
     void on_power_clicked();
 
-  private: 
+  private:
     double get_input(const QString& prompt, bool& ok);
     void perform_operation(double (Calculator::*operation)(double, double) const);
     void show_error(const QString& err_message);
@@ -29,4 +29,4 @@ class CalculatorApp : public QWidget {
     QLineEdit* display_;
 };
 
-#endif // CALCULATOR_APP_H
+#endif  // CALCULATOR_APP_H

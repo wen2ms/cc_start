@@ -7,7 +7,7 @@ class Circle {
   public:
     Point center;
     double radius;
-    
+
     Circle(Point center = Point(), double radius = 0.0);
 };
 
