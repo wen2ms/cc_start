@@ -1,7 +1,7 @@
 #include <iostream>
 
 class Dog {
-  public: 
+  public:
     Dog(int dog_id) : dog_id_(dog_id), age_(0) {}
 
     int get_dog_id() const {
@@ -9,7 +9,7 @@ class Dog {
     }
 
     int get_age() const {
-        age_ ++;
+        age_++;
 
         return age_;
     }
@@ -20,7 +20,7 @@ class Dog {
 
   private:
     int dog_id_;
-    mutable int age_; 
+    mutable int age_;
 };
 
 int main() {
@@ -34,7 +34,7 @@ int main() {
     std::cout << "Second age: " << mon.get_age() << '\n';
 
     // mon.set_age(); // Error: Cannot call non-const member function on a const object
-    
+
     std::cout << "---------------------------------------\n";
 
     return 0;

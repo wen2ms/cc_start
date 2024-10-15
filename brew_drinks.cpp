@@ -2,7 +2,7 @@
 
 class Drink {
   public:
-    virtual ~Drink() {}; 
+    virtual ~Drink() {};
 
     virtual void boil() const = 0;
 
@@ -34,7 +34,7 @@ class Coffee : public Drink {
         std::cout << "Pour into cup\n";
     }
 
-    void add_ingredient() const override{
+    void add_ingredient() const override {
         std::cout << "Add suger or milk\n";
     }
 };
@@ -53,7 +53,7 @@ class Tea : public Drink {
         std::cout << "Pour into cup\n";
     }
 
-    void add_ingredient() const override{
+    void add_ingredient() const override {
         std::cout << "Add lemon\n";
     }
 };
@@ -70,6 +70,9 @@ int main() {
     std::cout << "-------\n";
 
     tea->start();
+
+    delete coffee;
+    delete tea;
 
     std::cout << "---------------------------\n";
 

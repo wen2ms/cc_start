@@ -1,13 +1,13 @@
-#include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <iostream>
 
 const int kMaxTimes = 6;
 
 int main(void) {
     std::srand(static_cast<unsigned int>(std::time(0)));
 
-    int random_number = std::rand() % 100 + 1; 
+    int random_number = std::rand() % 100 + 1;
     int guess_number = -1;
     int guess_times = 0;
 
@@ -23,12 +23,12 @@ int main(void) {
             std::cout << "Your guess is too high. Try again.\n";
         } else if (guess_number < random_number) {
             std::cout << "Your guess is too low. Try again.\n";
-        } else  {
+        } else {
             std::cout << "Congratulations! You guessed the correct number!\n";
             break;
         }
 
-        guess_times ++;
+        guess_times++;
     }
 
     if (guess_times == kMaxTimes)
