@@ -3,9 +3,9 @@
 
 class Shape {
   public:
-    virtual double cal_area() const = 0;
-
     virtual ~Shape() {}
+
+    virtual double cal_area() const = 0;
 };
 
 class Rectangle : public Shape {
