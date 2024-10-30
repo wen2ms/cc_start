@@ -1,10 +1,6 @@
 #include "staff_list.h"
 
-const int kStaffNum = 50;
-
-StaffList::StaffList() : num_staffs_(0) {
-    staffs_ptr_ = new Staff*[kStaffNum];
-}
+StaffList::StaffList() : num_staffs_(0), staffs_ptr_(nullptr) {}
 
 StaffList::~StaffList() {
     for (int i = 0; i < num_staffs_; i++) {
@@ -44,16 +40,21 @@ int StaffList::search_staff_by_id(const char target_id[10]) const {
     return num_staffs_;
 }
 
-int StaffList::add_staffs(Staff* new_staff) {
-    if (num_staffs_ == kStaffNum) {
-        return -1;
-    } else if (search_staff_by_id(new_staff->get_id()) != num_staffs_) {
-        return -2;
+bool StaffList::add_staffs(Staff* new_staff) {
+    if (search_staff_by_id(new_staff->get_id()) != num_staffs_) {
+        return false;
     }
 
-    staffs_ptr_[num_staffs_++] = new_staff;
+    Staff** temp_staffs_ptr_ = new Staff*[num_staffs_ + 1];
 
-    return 1;
+    for (int i = 0; i < num_staffs_; i++) {
+        temp_staffs_ptr_[i] = staffs_ptr_[i];
+    }
+    temp_staffs_ptr_[num_staffs_++] = new_staff;
+
+    staffs_ptr_ = temp_staffs_ptr_;
+
+    return true;
 }
 
 bool StaffList::remove_staff(const char target_id[10]) {

@@ -17,7 +17,7 @@ class StaffList {
 
     int search_staff_by_id(const char target_id[10]) const;
 
-    int add_staffs(Staff* new_staff);
+    bool add_staffs(Staff* new_staff);
 
     bool remove_staff(const char target_id[10]);
 

@@ -85,11 +85,9 @@ void StaffManagementSystem::view_add_staffs() {
         view_input_prompt(&target_staff);
 
         int state_code = staff_list_.add_staffs(target_staff);
-        if (state_code == 1) {
+        if (state_code == true) {
             std::cout << "Add staff successfully!\n";
-        } else if (state_code == -1) {
-            std::cout << "Fail to add a staff, staff list full\n";
-        } else if (state_code == -2) {
+        } else if (state_code == false) {
             std::cout << "Fail to add a staff, duplicate staff\n";
         }
     }
