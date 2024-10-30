@@ -75,7 +75,7 @@ void StaffManagementSystem::view_input_prompt(Staff** new_staff) {
 }
 
 void StaffManagementSystem::view_add_staffs() {
-    Staff* target_staff;
+    Staff* target_staff = nullptr;
     int add_staffs_number;
 
     std::cout << "Please input staffs number: ";

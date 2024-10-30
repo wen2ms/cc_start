@@ -8,6 +8,7 @@ StaffList::~StaffList() {
     }
 
     delete[] staffs_ptr_;
+    staffs_ptr_ = nullptr;
 }
 
 Staff* StaffList::create_staff(const char* id, const char* name, const char department) {
@@ -53,6 +54,8 @@ bool StaffList::add_staffs(Staff* new_staff) {
     temp_staffs_ptr_[num_staffs_++] = new_staff;
 
     staffs_ptr_ = temp_staffs_ptr_;
+
+    delete[] temp_staffs_ptr_;
 
     return true;
 }
