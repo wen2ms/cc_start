@@ -3,7 +3,7 @@
 const int kStaffNum = 50;
 
 StaffList::StaffList() : num_staffs_(0) {
-   staffs_ptr_ = new Staff*[kStaffNum];
+    staffs_ptr_ = new Staff*[kStaffNum];
 }
 
 StaffList::~StaffList() {
@@ -43,7 +43,7 @@ int StaffList::search_staff_by_id(const char target_id[10]) const {
 
     return num_staffs_;
 }
-    
+
 int StaffList::add_staffs(Staff* new_staff) {
     if (num_staffs_ == kStaffNum) {
         return -1;
@@ -52,7 +52,7 @@ int StaffList::add_staffs(Staff* new_staff) {
     }
 
     staffs_ptr_[num_staffs_++] = new_staff;
-    
+
     return 1;
 }
 
@@ -68,7 +68,7 @@ bool StaffList::remove_staff(const char target_id[10]) {
         staffs_ptr_[i] = staffs_ptr_[i + 1];
     }
 
-    delete staffs_ptr_[-- num_staffs_];
+    delete staffs_ptr_[--num_staffs_];
 
     return true;
 }
@@ -82,7 +82,8 @@ bool StaffList::modify_staff(const Staff* modifed_staff, const char target_id[10
     }
 
     delete staffs_ptr_[target_staff_index];
-    staffs_ptr_[target_staff_index] = create_staff(modifed_staff->get_id(), modifed_staff->get_name(), modifed_staff->get_department());
+    staffs_ptr_[target_staff_index] =
+        create_staff(modifed_staff->get_id(), modifed_staff->get_name(), modifed_staff->get_department());
 
     return true;
 }
@@ -102,12 +103,12 @@ bool StaffList::load_staff_file(std::string file_name) {
         delete[] staffs_ptr_;
     }
 
-    in_file.read(reinterpret_cast<char*>(&num_staffs_), sizeof(num_staffs_)); 
+    in_file.read(reinterpret_cast<char*>(&num_staffs_), sizeof(num_staffs_));
 
     staffs_ptr_ = new Staff*[num_staffs_];
     if (!staffs_ptr_) {
         std::cerr << "Memory allocation failed\n";
-        return false;   
+        return false;
     }
 
     char temp_id[10];
@@ -138,7 +139,7 @@ bool StaffList::save_staff_file(std::string file_name) {
         std::cerr << "Could not open the file for writing\n";
         return false;
     }
-    
+
     out_file.write(reinterpret_cast<char*>(&num_staffs_), sizeof(num_staffs_));
 
     char temp_id[10];

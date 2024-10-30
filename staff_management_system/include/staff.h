@@ -10,9 +10,15 @@ class Staff {
 
     virtual ~Staff() {}
 
-    const char* get_id() const { return id_; }
-    const char* get_name() const { return name_; }
-    const char get_department() const { return department_; }
+    const char* get_id() const {
+        return id_;
+    }
+    const char* get_name() const {
+        return name_;
+    }
+    const char get_department() const {
+        return department_;
+    }
 
     virtual void perform_duty() const = 0;
 

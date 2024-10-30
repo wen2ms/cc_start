@@ -2,7 +2,7 @@
 
 std::string kStaffFileName = "data/staffs.dat";
 
-StaffManagementSystem::StaffManagementSystem() : staff_file_name_(kStaffFileName){
+StaffManagementSystem::StaffManagementSystem() : staff_file_name_(kStaffFileName) {
     staff_list_.load_staff_file(staff_file_name_);
 }
 
@@ -61,7 +61,7 @@ void StaffManagementSystem::view_input_prompt(Staff** new_staff) {
 
     std::cout << "Please input a staff name: ";
     std::cin >> name;
-    
+
     std::cout << "Please input the department (1: Employee, 2: Manager, 3: Boss): ";
     std::cin >> department;
 
@@ -86,12 +86,12 @@ void StaffManagementSystem::view_add_staffs() {
 
         int state_code = staff_list_.add_staffs(target_staff);
         if (state_code == 1) {
-            std::cout << "Add staff successfully!\n"; 
+            std::cout << "Add staff successfully!\n";
         } else if (state_code == -1) {
             std::cout << "Fail to add a staff, staff list full\n";
         } else if (state_code == -2) {
             std::cout << "Fail to add a staff, duplicate staff\n";
-        } 
+        }
     }
 
     staff_list_.save_staff_file(staff_file_name_);
@@ -100,11 +100,11 @@ void StaffManagementSystem::view_add_staffs() {
 void StaffManagementSystem::print_staffs() {
     std::cout << std::left << std::setw(15) << "id" << std::setw(15) << "name" << std::setw(10) << "department\n";
     std::cout << std::string(50, '-') << '\n';
-    
+
     for (int i = 0; i < staff_list_.num_staffs_; i++) {
-        std::cout << std::left << std::setw(15) << staff_list_.staffs_ptr_[i]->get_id()
-                << std::setw(15) << staff_list_.staffs_ptr_[i]->get_name() << std::setw(10)
-                << staff_list_.staffs_ptr_[i]->get_department() << std::endl;
+        std::cout << std::left << std::setw(15) << staff_list_.staffs_ptr_[i]->get_id() << std::setw(15)
+                  << staff_list_.staffs_ptr_[i]->get_name() << std::setw(10) << staff_list_.staffs_ptr_[i]->get_department()
+                  << std::endl;
     }
 }
 
@@ -141,7 +141,7 @@ void StaffManagementSystem::view_modify_staff() {
     bool state = staff_list_.modify_staff(modified_staff, target_id);
     if (state) {
         std::cout << "Modify staff successfully!\n";
-    } 
+    }
 }
 
 void StaffManagementSystem::view_search_staff() {
@@ -173,9 +173,9 @@ void StaffManagementSystem::view_search_staff() {
         std::cout << std::left << std::setw(15) << "id" << std::setw(15) << "name" << std::setw(10) << "department\n";
         std::cout << std::string(50, '-') << '\n';
 
-        std::cout << std::left << std::setw(15) << staff_list_.staffs_ptr_[target_index]->get_id()
-            << std::setw(15) << staff_list_.staffs_ptr_[target_index]->get_name() << std::setw(10)
-            << staff_list_.staffs_ptr_[target_index]->get_department() << std::endl;
+        std::cout << std::left << std::setw(15) << staff_list_.staffs_ptr_[target_index]->get_id() << std::setw(15)
+                  << staff_list_.staffs_ptr_[target_index]->get_name() << std::setw(10)
+                  << staff_list_.staffs_ptr_[target_index]->get_department() << std::endl;
     } else {
         std::cout << "Fail to search, the staff not found\n";
     }
