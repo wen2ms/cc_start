@@ -2,7 +2,6 @@
 #define STAFF_MANAGEMENT_SYSTEM_H
 
 #include <cstdlib>
-#include <cstring>
 #include <fstream>
 #include <iomanip>
 #include <iostream>

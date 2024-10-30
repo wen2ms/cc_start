@@ -11,7 +11,7 @@ StaffList::~StaffList() {
     staffs_ptr_ = nullptr;
 }
 
-Staff* StaffList::create_staff(const char* id, const char* name, const char department) {
+Staff* StaffList::create_staff(std::string id, std::string name, const char department) {
     if (department == '1') {
         return new Employee(id, name);
     } else if (department == '2') {
@@ -21,9 +21,9 @@ Staff* StaffList::create_staff(const char* id, const char* name, const char depa
     }
 }
 
-int StaffList::search_staff_by_name(const char target_name[15]) const {
+int StaffList::search_staff_by_name(const std::string target_name) const {
     for (int i = 0; i < num_staffs_; i++) {
-        if (std::strcmp(staffs_ptr_[i]->get_name(), target_name) == 0) {
+        if (staffs_ptr_[i]->get_name() == target_name) {
             return i;
         }
     }
@@ -31,9 +31,9 @@ int StaffList::search_staff_by_name(const char target_name[15]) const {
     return num_staffs_;
 }
 
-int StaffList::search_staff_by_id(const char target_id[10]) const {
+int StaffList::search_staff_by_id(const std::string target_id) const {
     for (int i = 0; i < num_staffs_; i++) {
-        if (std::strcmp(staffs_ptr_[i]->get_id(), target_id) == 0) {
+        if (staffs_ptr_[i]->get_id() == target_id) {
             return i;
         }
     }
@@ -53,14 +53,14 @@ bool StaffList::add_staffs(Staff* new_staff) {
     }
     temp_staffs_ptr_[num_staffs_++] = new_staff;
 
-    staffs_ptr_ = temp_staffs_ptr_;
+    delete[] staffs_ptr_;
 
-    delete[] temp_staffs_ptr_;
+    staffs_ptr_ = temp_staffs_ptr_;
 
     return true;
 }
 
-bool StaffList::remove_staff(const char target_id[10]) {
+bool StaffList::remove_staff(const std::string target_id) {
     int target_staff_index;
 
     target_staff_index = search_staff_by_id(target_id);
@@ -68,16 +68,25 @@ bool StaffList::remove_staff(const char target_id[10]) {
         return false;
     }
 
-    for (int i = target_staff_index; i < num_staffs_; i++) {
-        staffs_ptr_[i] = staffs_ptr_[i + 1];
+    Staff** temp_staffs_ptr_ = new Staff*[num_staffs_ - 1];
+
+    for (int i = 0; i < target_staff_index; i++) {
+        temp_staffs_ptr_[i] = staffs_ptr_[i];
+    }
+    for (int i = target_staff_index; i < num_staffs_ - 1; i++) {
+        temp_staffs_ptr_[i] = staffs_ptr_[i + 1];
     }
 
-    delete staffs_ptr_[--num_staffs_];
+    delete[] staffs_ptr_;
+
+    staffs_ptr_ = temp_staffs_ptr_;
+
+    num_staffs_ --;
 
     return true;
 }
 
-bool StaffList::modify_staff(const Staff* modifed_staff, const char target_id[10]) {
+bool StaffList::modify_staff(const Staff* modifed_staff, const std::string target_id) {
     int target_staff_index;
 
     target_staff_index = search_staff_by_id(target_id);
@@ -93,7 +102,7 @@ bool StaffList::modify_staff(const Staff* modifed_staff, const char target_id[10
 }
 
 bool StaffList::load_staff_file(std::string file_name) {
-    std::ifstream in_file(file_name, std::ios::binary);
+    std::ifstream in_file(file_name);
 
     if (!in_file.is_open()) {
         std::cerr << "Could not open the file for reading\n";
@@ -105,9 +114,16 @@ bool StaffList::load_staff_file(std::string file_name) {
             delete staffs_ptr_[i];
         }
         delete[] staffs_ptr_;
+        num_staffs_ = 0;
     }
 
-    in_file.read(reinterpret_cast<char*>(&num_staffs_), sizeof(num_staffs_));
+    std::string temp_id;
+    std::string temp_name;
+    char temp_department;
+
+    while (in_file >> temp_id && in_file >> temp_name && in_file >> temp_department) {
+        num_staffs_++;
+    }
 
     staffs_ptr_ = new Staff*[num_staffs_];
     if (!staffs_ptr_) {
@@ -115,21 +131,9 @@ bool StaffList::load_staff_file(std::string file_name) {
         return false;
     }
 
-    char temp_id[10];
-    char temp_name[15];
-    char temp_department;
-    for (int i = 0; i < num_staffs_; i++) {
-        in_file.read(temp_id, sizeof(temp_id));
-        in_file.read(temp_name, sizeof(temp_name));
-        in_file.read(&temp_department, sizeof(temp_department));
-
-        if (temp_department == '1') {
-            staffs_ptr_[i] = new Employee(temp_id, temp_name);
-        } else if (temp_department == '2') {
-            staffs_ptr_[i] = new Manager(temp_id, temp_name);
-        } else if (temp_department == '3') {
-            staffs_ptr_[i] = new Boss(temp_id, temp_name);
-        }
+    int i = 0;
+    while (in_file >> temp_id && in_file >> temp_name && in_file >> temp_department) {
+        staffs_ptr_[i++] = create_staff(temp_id, temp_name, temp_department);
     }
 
     in_file.close();
@@ -137,26 +141,16 @@ bool StaffList::load_staff_file(std::string file_name) {
 }
 
 bool StaffList::save_staff_file(std::string file_name) {
-    std::ofstream out_file(file_name, std::ios::binary);
+    std::ofstream out_file(file_name);
 
     if (!out_file.is_open()) {
         std::cerr << "Could not open the file for writing\n";
         return false;
     }
 
-    out_file.write(reinterpret_cast<char*>(&num_staffs_), sizeof(num_staffs_));
-
-    char temp_id[10];
-    char temp_name[15];
-    char temp_department;
     for (int i = 0; i < num_staffs_; i++) {
-        std::strcpy(temp_id, staffs_ptr_[i]->get_id());
-        std::strcpy(temp_name, staffs_ptr_[i]->get_name());
-        temp_department = staffs_ptr_[i]->get_department();
-
-        out_file.write(temp_id, sizeof(temp_id));
-        out_file.write(temp_name, sizeof(temp_name));
-        out_file.write(&temp_department, sizeof(temp_department));
+        out_file << staffs_ptr_[i]->get_id() << ' ' << staffs_ptr_[i]->get_name() << ' ' 
+                 << staffs_ptr_[i]->get_department() << '\n';
     }
 
     out_file.close();
