@@ -1,6 +1,8 @@
 #include "staff_management_system.h"
 
-StaffManagementSystem::StaffManagementSystem() {
+std::string kStaffFileName = "data/staffs.dat";
+
+StaffManagementSystem::StaffManagementSystem() : staff_file_name_(kStaffFileName){
     staff_list_.load_staff_file(staff_file_name_);
 }
 
@@ -19,11 +21,11 @@ void StaffManagementSystem::menu_navigate() {
         } else if (option_number == '3') {
             view_remove_staff();
         } else if (option_number == '4') {
-            view_modify_staff();
-        } else if (option_number == '5') {
             view_search_staff();
+        } else if (option_number == '5') {
+            view_modify_staff();
         } else if (option_number == '6') {
-            sort_stafflist();
+            view_sort_stafflist();
         } else if (option_number == '7') {
             clear_all_staffs();
         } else if (option_number == '0') {
@@ -49,7 +51,7 @@ void StaffManagementSystem::view_title() {
     std::cout << "------------------------------\n";
 }
 
-void StaffManagementSystem::view_input_prompt(Staff* new_staff) {
+void StaffManagementSystem::view_input_prompt(Staff** new_staff) {
     char id[10];
     char name[15];
     char department;
@@ -64,11 +66,11 @@ void StaffManagementSystem::view_input_prompt(Staff* new_staff) {
     std::cin >> department;
 
     if (department == '1') {
-        new_staff = new Employee(id, name);
+        *new_staff = new Employee(id, name);
     } else if (department == '2') {
-        new_staff = new Manager(id, name);
+        *new_staff = new Manager(id, name);
     } else if (department == '3') {
-        new_staff = new Boss(id, name);
+        *new_staff = new Boss(id, name);
     }
 }
 
@@ -80,7 +82,7 @@ void StaffManagementSystem::view_add_staffs() {
     std::cin >> add_staffs_number;
 
     for (int i = 0; i < add_staffs_number; i++) {
-        view_input_prompt(target_staff);
+        view_input_prompt(&target_staff);
 
         int state_code = staff_list_.add_staffs(target_staff);
         if (state_code == 1) {
@@ -91,6 +93,8 @@ void StaffManagementSystem::view_add_staffs() {
             std::cout << "Fail to add a staff, duplicate staff\n";
         } 
     }
+
+    staff_list_.save_staff_file(staff_file_name_);
 }
 
 void StaffManagementSystem::print_staffs() {
@@ -114,7 +118,7 @@ void StaffManagementSystem::view_remove_staff() {
     if (state) {
         std::cout << "Remove staff successfully!\n";
     } else {
-        std::cout << "Failed to remove staff, the staff not found\n";
+        std::cout << "Fail to remove staff, the staff not found\n";
     }
 }
 
@@ -126,12 +130,13 @@ void StaffManagementSystem::view_modify_staff() {
 
     int target_index = staff_list_.search_staff_by_id(target_id);
     if (target_index == staff_list_.num_staffs_) {
-        std::cout << "Failed to modify staff, the staff not found\n";
+        std::cout << "Fail to modify staff, the staff not found\n";
+        return;
     }
 
     Staff* modified_staff;
 
-    view_input_prompt(modified_staff);
+    view_input_prompt(&modified_staff);
 
     bool state = staff_list_.modify_staff(modified_staff, target_id);
     if (state) {
@@ -172,14 +177,70 @@ void StaffManagementSystem::view_search_staff() {
             << std::setw(15) << staff_list_.staffs_ptr_[target_index]->get_name() << std::setw(10)
             << staff_list_.staffs_ptr_[target_index]->get_department() << std::endl;
     } else {
-        std::cout << "Failed to search, the staff not found\n";
+        std::cout << "Fail to search, the staff not found\n";
     }
 }
 
-void StaffManagementSystem::sort_stafflist() {
-    for (int i = 0;)
+void StaffManagementSystem::view_sort_stafflist() {
+    char order_option;
+
+    std::cout << "Please choose the sorting method (1: ascending, 2: descending): ";
+    std::cin >> order_option;
+
+    if (order_option == '1') {
+        for (int i = 0; i < staff_list_.num_staffs_ - 1; i++) {
+            for (int j = 0; j < staff_list_.num_staffs_ - i - 1; j++) {
+                if (std::strcmp(staff_list_.staffs_ptr_[j]->get_id(), staff_list_.staffs_ptr_[j + 1]->get_id()) > 0) {
+                    Staff* temp = staff_list_.staffs_ptr_[j];
+                    staff_list_.staffs_ptr_[j] = staff_list_.staffs_ptr_[j + 1];
+                    staff_list_.staffs_ptr_[j + 1] = temp;
+                }
+            }
+        }
+    } else if (order_option == '2') {
+        for (int i = 0; i < staff_list_.num_staffs_ - 1; i++) {
+            for (int j = 0; j < staff_list_.num_staffs_ - i - 1; j++) {
+                if (std::strcmp(staff_list_.staffs_ptr_[j]->get_id(), staff_list_.staffs_ptr_[j + 1]->get_id()) < 0) {
+                    Staff* temp = staff_list_.staffs_ptr_[j];
+                    staff_list_.staffs_ptr_[j] = staff_list_.staffs_ptr_[j + 1];
+                    staff_list_.staffs_ptr_[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    std::cout << "Sort successfully!\n";
 }
 
-void StaffManagementSystem::clear_all_staffs();
+void StaffManagementSystem::clear_all_staffs() {
+    std::cout << "Are you sure you want to clear all staffs? (y or n): ";
 
-void StaffManagementSystem::exit_application();
+    char ok;
+    std::cin >> ok;
+    if (ok == 'n' || ok == 'N') {
+        return;
+    }
+
+    if (ok == 'y' || ok == 'Y') {
+        staff_list_.num_staffs_ = 0;
+        staff_list_.~StaffList();
+
+        bool state = staff_list_.save_staff_file(staff_file_name_);
+        if (state) {
+            std::cout << "Clear successfully!\n";
+        } else {
+            std::cout << "Fail to clear\n";
+        }
+    }
+}
+
+void StaffManagementSystem::wait_for_keypress() {
+    std::cout << "Press any key to return the navigator...\n";
+    std::cin.ignore();
+    std::cin.get();
+}
+
+void StaffManagementSystem::exit_application() {
+    std::cout << "Exit the system...\n";
+    std::exit(0);
+}

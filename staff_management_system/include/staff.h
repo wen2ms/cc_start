@@ -8,6 +8,8 @@ class Staff {
   public:
     Staff(const char* id = "unknown", const char* name = "unknown", const char department = '0');
 
+    virtual ~Staff() {}
+
     const char* get_id() const { return id_; }
     const char* get_name() const { return name_; }
     const char get_department() const { return department_; }

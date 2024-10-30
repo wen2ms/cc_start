@@ -18,7 +18,7 @@ class StaffManagementSystem {
 
     void view_title();
 
-    void view_input_prompt(Staff* new_staff);
+    void view_input_prompt(Staff** new_staff);
 
     void view_add_staffs();
 
@@ -30,7 +30,7 @@ class StaffManagementSystem {
 
     void view_search_staff();
 
-    void sort_stafflist();
+    void view_sort_stafflist();
 
     void clear_all_staffs();
 

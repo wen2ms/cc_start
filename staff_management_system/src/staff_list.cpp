@@ -2,7 +2,7 @@
 
 const int kStaffNum = 50;
 
-StaffList::StaffList() {
+StaffList::StaffList() : num_staffs_(0) {
    staffs_ptr_ = new Staff*[kStaffNum];
 }
 
@@ -26,18 +26,22 @@ Staff* StaffList::create_staff(const char* id, const char* name, const char depa
 
 int StaffList::search_staff_by_name(const char target_name[15]) const {
     for (int i = 0; i < num_staffs_; i++) {
-        if (staffs_ptr_[i]->get_name() == target_name) {
+        if (std::strcmp(staffs_ptr_[i]->get_name(), target_name) == 0) {
             return i;
         }
     }
+
+    return num_staffs_;
 }
 
 int StaffList::search_staff_by_id(const char target_id[10]) const {
     for (int i = 0; i < num_staffs_; i++) {
-        if (staffs_ptr_[i]->get_id() == target_id) {
+        if (std::strcmp(staffs_ptr_[i]->get_id(), target_id) == 0) {
             return i;
         }
     }
+
+    return num_staffs_;
 }
     
 int StaffList::add_staffs(Staff* new_staff) {
@@ -91,37 +95,37 @@ bool StaffList::load_staff_file(std::string file_name) {
         return false;
     }
 
-    if (!staffs_ptr_) {
+    if (staffs_ptr_) {
         for (int i = 0; i < num_staffs_; i++) {
             delete staffs_ptr_[i];
         }
         delete[] staffs_ptr_;
     }
 
-    int num_staffs;
-    in_file.read(reinterpret_cast<char*>(&num_staffs), sizeof(num_staffs)); 
+    in_file.read(reinterpret_cast<char*>(&num_staffs_), sizeof(num_staffs_)); 
 
-    staffs_ptr_ = new Staff*[num_staffs];
+    staffs_ptr_ = new Staff*[num_staffs_];
     if (!staffs_ptr_) {
         std::cerr << "Memory allocation failed\n";
         return false;   
     }
 
-    for (int i = 0; i < num_staffs; i++) {
-        in_file.read(reinterpret_cast<char*>(staffs_ptr_[i]), sizeof(Staff));
+    char temp_id[10];
+    char temp_name[15];
+    char temp_department;
+    for (int i = 0; i < num_staffs_; i++) {
+        in_file.read(temp_id, sizeof(temp_id));
+        in_file.read(temp_name, sizeof(temp_name));
+        in_file.read(&temp_department, sizeof(temp_department));
 
-        if (staffs_ptr_[i]->get_department() == '1') {
-            staffs_ptr_[i] = new Employee(staffs_ptr_[i]->get_id(), staffs_ptr_[i]->get_name());
-        } else if (staffs_ptr_[i]->get_department() == '2') {
-            staffs_ptr_[i] = new Manager(staffs_ptr_[i]->get_id(), staffs_ptr_[i]->get_name());
-        } else if (staffs_ptr_[i]->get_department() == '3') {
-            staffs_ptr_[i] = new Boss(staffs_ptr_[i]->get_id(), staffs_ptr_[i]->get_name());
+        if (temp_department == '1') {
+            staffs_ptr_[i] = new Employee(temp_id, temp_name);
+        } else if (temp_department == '2') {
+            staffs_ptr_[i] = new Manager(temp_id, temp_name);
+        } else if (temp_department == '3') {
+            staffs_ptr_[i] = new Boss(temp_id, temp_name);
         }
-
-        in_file.read(reinterpret_cast<char*>(&staffs_ptr_[i]), sizeof(Staff));
     }
-
-    num_staffs_ = num_staffs;
 
     in_file.close();
     return true;
@@ -137,8 +141,17 @@ bool StaffList::save_staff_file(std::string file_name) {
     
     out_file.write(reinterpret_cast<char*>(&num_staffs_), sizeof(num_staffs_));
 
+    char temp_id[10];
+    char temp_name[15];
+    char temp_department;
     for (int i = 0; i < num_staffs_; i++) {
-        out_file.write(reinterpret_cast<char*>(staffs_ptr_[i]), sizeof(Staff));
+        std::strcpy(temp_id, staffs_ptr_[i]->get_id());
+        std::strcpy(temp_name, staffs_ptr_[i]->get_name());
+        temp_department = staffs_ptr_[i]->get_department();
+
+        out_file.write(temp_id, sizeof(temp_id));
+        out_file.write(temp_name, sizeof(temp_name));
+        out_file.write(&temp_department, sizeof(temp_department));
     }
 
     out_file.close();
