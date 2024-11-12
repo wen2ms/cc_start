@@ -33,7 +33,8 @@ template <class Card>
 CardBox<Card>::CardBox(int storage) : storage_(storage), cards_number_(0), first_(new Card[storage]) {}
 
 template <class Card>
-CardBox<Card>::CardBox(const CardBox& box) : storage_(box.storage_), cards_number_(box.cards_number_), first_(new Card[box.storage_]) {
+CardBox<Card>::CardBox(const CardBox& box)
+    : storage_(box.storage_), cards_number_(box.cards_number_), first_(new Card[box.storage_]) {
     for (int i = 0; i < box.cards_number_; i++) {
         first_[i] = box.first_[i];
     }

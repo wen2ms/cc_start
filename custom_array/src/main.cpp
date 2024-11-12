@@ -1,4 +1,5 @@
 #include <iostream>
+
 #include "card_box.hpp"
 
 template <class Card>
@@ -6,7 +7,7 @@ void test_push_back(CardBox<Card>& box) {
     std::cout << "box: ";
     for (int i = 0; i < 5; i++) {
         box.push_back(i);
-        std::cout << box[i] << ' '; 
+        std::cout << box[i] << ' ';
     }
     std::cout << '\n';
 }
@@ -21,13 +22,13 @@ void test_copy(const CardBox<Card>& box) {
 
     std::cout << "box_copy: ";
     for (int i = 0; i < 5; i++) {
-        std::cout << box_copy[i] << ' '; 
+        std::cout << box_copy[i] << ' ';
     }
     std::cout << '\n';
 
     std::cout << "box: ";
     for (int i = 0; i < 5; i++) {
-        std::cout << box[i] << ' '; 
+        std::cout << box[i] << ' ';
     }
     std::cout << '\n';
 }
