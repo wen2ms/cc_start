@@ -36,7 +36,7 @@ void read(const std::string& file_name, std::vector<Dog>& dogs) {
 }
 
 template <class ItemType>
-void print_item(ItemType item) {
+void print_item(const ItemType& item) {
     std::cout << item << std::endl;
 }
 
@@ -50,7 +50,7 @@ int main() {
     
     read(kFileName, dogs);
 
-    for (std::vector<Dog>::iterator it = dogs.begin(); it < dogs.end(); it++) {
+    for (std::vector<Dog>::iterator it = dogs.begin(); it != dogs.end(); it++) {
         std::cout << *it << std::endl;
     }
 
