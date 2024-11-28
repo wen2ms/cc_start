@@ -15,11 +15,11 @@ int main() {
     std::cout << "------------------------------\n";
 
     std::set<int> basic_set;
-    const int set_size = 10;
+    const int kSetSize = 10;
 
     std::srand(static_cast<unsigned int>(std::time(0)));
 
-    for (int i = 0; i < set_size; i++) {
+    for (int i = 0; i < kSetSize; i++) {
         basic_set.insert(std::rand() % 100 + 1);
     }
 
