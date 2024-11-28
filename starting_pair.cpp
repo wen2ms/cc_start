@@ -13,7 +13,7 @@ int main() {
 
     const int list_size = 5;
     for (int i = 0; i < list_size; i++) {
-        points_list.push_back(std::make_pair(std::rand() % 10 + 1, std::rand() % 10 + 1));
+        points_list.push_back(std::make_pair<int, int>(std::rand() % 10 + 1, std::rand() % 10 + 1));
     }
 
     for (std::list<std::pair<int, int>>::iterator it = points_list.begin(); it != points_list.end(); it++) {
