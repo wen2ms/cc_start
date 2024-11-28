@@ -43,6 +43,8 @@ std::map<std::string, TVShow> load_file() {
         stringstream >> release_year;
 
         shows_map.insert(std::make_pair(title, TVShow(title, rating, release_year)));
+
+        // shows_map[key];  // This will create the default value 0 if the key doesn't exist
     }
 
     in_file.close();
