@@ -1,0 +1,5 @@
+French Bulldog,1
+Golden Retriever,3
+Doberman Pinscher,15
+Labrodor Retriever,2
+Germen Shepherd Dog,4
