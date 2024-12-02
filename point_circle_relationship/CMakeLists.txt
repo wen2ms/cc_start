@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(PointCircleRelationship)
+project(point_circle_relationship)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -14,4 +14,4 @@ set(SOURCES
     src/Utilities.cpp
 )
 
-add_executable(point_circle ${SOURCES})
+add_executable(point_circle_relationship ${SOURCES})
