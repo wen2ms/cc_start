@@ -5,7 +5,7 @@
 #include <string>
 #include <stack>
 
-#include "find_algorithm_config.h"
+#include "algorithm_find_config.h"
 
 class Dog {
   public:
