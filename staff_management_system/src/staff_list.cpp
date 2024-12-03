@@ -131,6 +131,9 @@ bool StaffList::load_staff_file(std::string file_name) {
         return false;
     }
 
+    in_file.clear(); 
+    in_file.seekg(0);
+
     int i = 0;
     while (in_file >> temp_id && in_file >> temp_name && in_file >> temp_department) {
         staffs_ptr_[i++] = create_staff(temp_id, temp_name, temp_department);
