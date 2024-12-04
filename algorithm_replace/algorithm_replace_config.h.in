@@ -1,0 +1,1 @@
+#define TVSHOWS_TXT_PATH "@PROJECT_SOURCE_DIR@/tvshows.txt"
