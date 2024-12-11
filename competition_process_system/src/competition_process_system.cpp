@@ -12,34 +12,6 @@
 
 CompetitionProcessSystem::CompetitionProcessSystem(const std::string& filename) : filename_(filename) {}
 
-void CompetitionProcessSystem::run() {
-    show_title();
-
-    char key;
-    while (true) {
-        std::cout << "Please select: ";
-
-        std::cin >> key;
-
-        switch (key) {
-            case '1':
-                start();
-                break;
-            case '2':
-                load();
-                break;
-            case '3':
-                clear();
-                break;
-            case '0':
-                std::cout << "Welcome next time..." << std::endl;
-                return;
-            default:
-                std::cout << "Number invalid, please enter again..." << std::endl;
-        }
-    }
-}
-
 void CompetitionProcessSystem::show_title() const {
     std::cout << "----------------------------------" << std::endl;
     std::cout << "--------- Welcome to CPS ---------" << std::endl;

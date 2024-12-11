@@ -11,8 +11,6 @@ class CompetitionProcessSystem {
   public:
     CompetitionProcessSystem(const std::string& filename = static_cast<std::string>(PROJECT_SOURCE_DIR) + "/history.csv");
 
-    void run();
-
     void show_title() const;
 
     void start();
