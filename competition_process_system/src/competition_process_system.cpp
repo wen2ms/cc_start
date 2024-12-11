@@ -26,7 +26,7 @@ void CompetitionProcessSystem::run() {
                 start();
                 break;
             case '2':
-                history();
+                load();
                 break;
             case '3':
                 clear();
@@ -89,15 +89,15 @@ void CompetitionProcessSystem::start() {
 
         std::cout << "Please enter any key..." << std::endl;
         std::cin.get();
-
-        std::cout << "-------- This Competition Is Over --------" << std::endl;
-        std::cout << "The History Saved..." << std::endl;
-
-        save();
-
-        std::cout << "Please enter any key..." << std::endl;
-        std::cin.get();
     }
+
+    std::cout << "-------- This Competition Is Over --------" << std::endl;
+    std::cout << "The History Saved..." << std::endl;
+
+    std::cout << "Please enter any key..." << std::endl;
+    std::cin.get();
+
+    save();
 }
 
 void CompetitionProcessSystem::judge() {
@@ -174,15 +174,22 @@ void CompetitionProcessSystem::round() {
 }
 
 void CompetitionProcessSystem::save() const {
-    std::ofstream outfile(filename_);
+    std::ofstream outfile(filename_, std::ios::app);
 
     if (!outfile.is_open()) {
         std::cerr << "Could not open " << filename_ << " for history" << std::endl;
         return;
     }
+
+    for (std::vector<Player>::const_iterator it = players_.begin(); it != players_.end(); ++it) {
+        outfile << it->id_ << ',' << it->name_ << ',' << it->score_ << ',';
+    }
+    outfile << std::endl;
+
+    outfile.close();
 }
 
-void CompetitionProcessSystem::history() const {
+void CompetitionProcessSystem::load() const {
     std::ifstream infile(filename_);
     if (!infile.is_open()) {
         std::cerr << "Could not open " << filename_ << " for history" << std::endl;

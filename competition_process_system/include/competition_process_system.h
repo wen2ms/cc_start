@@ -25,7 +25,7 @@ class CompetitionProcessSystem {
 
     void save() const;
 
-    void history() const;
+    void load() const;
 
     void clear() const;
 
