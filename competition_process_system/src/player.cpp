@@ -2,4 +2,4 @@
 
 Player::Player() {}
 
-Player::Player(int id, std::string name) : id_(id), name_(name) {}
+Player::Player(std::string name) : name_(name) {}

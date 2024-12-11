@@ -7,9 +7,8 @@ class Player {
   public:
     Player();
 
-    Player(int id, std::string name);
+    Player(std::string name);
 
-    int id_;
     std::string name_;
     float score_;
 };

@@ -3,14 +3,27 @@
 #include <algorithm>
 #include <ctime>
 #include <cstdlib>
+#include <deque>
 #include <fstream>
-#include <functional>
 #include <iostream>
 #include <sstream>
 #include <random>
 #include <numeric>
 
-CompetitionProcessSystem::CompetitionProcessSystem(const std::string& filename) : filename_(filename) {}
+CompetitionProcessSystem::CompetitionProcessSystem(const std::string& filename) : filename_(filename) {
+    init();
+}
+
+void CompetitionProcessSystem::init() {
+    players_id_.clear();
+    players_.clear();
+
+    for (int i = 0; i < kPlayerNumber; ++i) {
+        players_id_.push_back(10001 + i);
+
+        players_.insert(std::make_pair(10001 + i, Player(std::string(1, 'A' + i))));
+    }
+}
 
 void CompetitionProcessSystem::show_title() const {
     std::cout << "----------------------------------" << std::endl;
@@ -24,12 +37,7 @@ void CompetitionProcessSystem::show_title() const {
 }
 
 void CompetitionProcessSystem::start() {
-    const int kPlayerNumber = 12;
-
-    players_.clear();
-    for (int i = 0; i < kPlayerNumber; ++i) {
-        players_.push_back(Player(10001 + i, std::string(1, 'A' + i)));
-    }
+    init();
 
     const int kRoundNumber = players_.size() / 6;
 
@@ -57,7 +65,7 @@ void CompetitionProcessSystem::start() {
 
         std::cout << "----- The players advanced in round " << i << " are as follws -----" << std::endl;
 
-        print_players(players_.begin(), players_.end());
+        print_players(players_id_.begin(), players_id_.end());
 
         std::cout << "Please enter any key..." << std::endl;
         std::cin.get();
@@ -74,65 +82,54 @@ void CompetitionProcessSystem::start() {
 
 void CompetitionProcessSystem::judge() {
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
-    const int kJudgeNumber = 10;
 
-    for (std::vector<Player>::iterator it = players_.begin(); it != players_.end(); ++it) {
-        std::vector<int> scores;
+    for (std::vector<int>::iterator it = players_id_.begin(); it != players_id_.end(); ++it) {
+        std::deque<int> scores;
 
         for (int j = 0; j < kJudgeNumber; ++j) {
             scores.push_back(std::rand() % 40 + 60);
         }
 
-        int max = scores[0];
-        int min = scores[0];
-        for (int j = 0; j < kJudgeNumber; ++j) {
-            int score = scores.at(j);
-            if (max < score) {
-                max = score;
-            }
+        std::sort(scores.begin(), scores.end(), std::greater<int>());
 
-            if (min > score) {
-                min = score;
-            }
-        }
+        scores.pop_back();
+        scores.pop_front();
 
-        it->score_ = (std::accumulate(scores.begin(), scores.end(), 0.0) - max - min) / (kJudgeNumber - 2);
+        players_[*it].score_ = std::accumulate(scores.begin(), scores.end(), 0.0) / scores.size();
     }
 }
 
 void CompetitionProcessSystem::draw() {
     std::mt19937 random_generation(std::time(nullptr));
 
-    std::shuffle(players_.begin(), players_.end(), random_generation);
+    std::shuffle(players_id_.begin(), players_id_.end(), random_generation);
 
-    std::for_each(players_.begin(), players_.end(), [](const Player& item) {
-        std::cout << item.id_ << ' ';
+    std::for_each(players_id_.begin(), players_id_.end(), [](int id) {
+        std::cout << id << ' ';
     });
     std::cout << std::endl;
 }
 
 void CompetitionProcessSystem::round() {
-    if (players_.size() == 6) {
-        auto player_sort = [](const Player& a, const Player& b) { return a.score_ > b.score_; };
+    auto player_id_sort = [this](int a, int b) { return players_[a].score_ > players_[b].score_; };
 
-        std::sort(players_.begin(), players_.end(), player_sort);
+    if (players_id_.size() == 6) {
+        std::sort(players_id_.begin(), players_id_.end(), player_id_sort);
 
         std::cout << "First group rankings:" << std::endl;
-        print_players(players_.begin(), players_.end());
+        print_players(players_id_.begin(), players_id_.end());
 
-        players_.resize(3);       
+        players_id_.resize(3);       
     } else {
-        std::vector<Player> group1(players_.size() * 0.5), group2(players_.size() * 0.5);
+        std::vector<int> group1(players_id_.size() * 0.5), group2(players_id_.size() * 0.5);
 
-        std::vector<Player>::iterator mid_position = players_.begin() + players_.size() * 0.5;
+        std::vector<int>::iterator mid_position = players_id_.begin() + players_id_.size() * 0.5;
 
-        std::copy(players_.begin(), mid_position, group1.begin());
-        std::copy(mid_position, players_.end(), group2.begin());
+        std::copy(players_id_.begin(), mid_position, group1.begin());
+        std::copy(mid_position, players_id_.end(), group2.begin());
 
-        auto player_sort = [](const Player& a, const Player& b) { return a.score_ > b.score_; };
-
-        std::sort(group1.begin(), group1.end(), player_sort);
-        std::sort(group2.begin(), group2.end(), player_sort);
+        std::sort(group1.begin(), group1.end(), player_id_sort);
+        std::sort(group2.begin(), group2.end(), player_id_sort);
 
         std::cout << "First group rankings:" << std::endl;
         print_players(group1.begin(), group1.end());
@@ -140,12 +137,15 @@ void CompetitionProcessSystem::round() {
         std::cout << "Second group rankings:" << std::endl;
         print_players(group2.begin(), group2.end());
 
-        players_.resize(players_.size() * 0.5);
-        std::merge(group1.begin(), group1.begin() + group1.size(), group2.begin(), group2.begin() + group2.size(), players_.begin(), player_sort);
+        players_id_.resize(players_.size() * 0.5);
+        group1.resize(group1.size() * 0.5);
+        group2.resize(group2.size() * 0.5);
+
+        std::merge(group1.begin(), group1.begin() + group1.size(), group2.begin(), group2.begin() + group2.size(), players_id_.begin(), player_id_sort);
     }
 }
 
-void CompetitionProcessSystem::save() const {
+void CompetitionProcessSystem::save() {
     std::ofstream outfile(filename_, std::ios::app);
 
     if (!outfile.is_open()) {
@@ -153,8 +153,8 @@ void CompetitionProcessSystem::save() const {
         return;
     }
 
-    for (std::vector<Player>::const_iterator it = players_.begin(); it != players_.end(); ++it) {
-        outfile << it->id_ << ',' << it->name_ << ',' << it->score_ << ',';
+    for (std::vector<int>::iterator it = players_id_.begin(); it != players_id_.end(); ++it) {
+        outfile << *it << ',' << players_[*it].name_ << ',' << players_[*it].score_ << ',';
     }
     outfile << std::endl;
 
@@ -207,8 +207,8 @@ void CompetitionProcessSystem::clear() const {
     std::cout << "Clear successfully..." << std::endl;
 }
 
-void CompetitionProcessSystem::print_players(const std::vector<Player>::iterator& begin, const std::vector<Player>::iterator& end) const {
-    std::for_each(begin, end, [](const Player& player) {
-        std::cout << "Id: " << player.id_ << " Name: player-" << player.name_ << " Score: " << player.score_ << std::endl;
-    });      
+void CompetitionProcessSystem::print_players(const std::vector<int>::iterator& begin, const std::vector<int>::iterator& end) {
+    for (std::vector<int>::const_iterator it = begin; it != end; ++it) {
+        std::cout << "Id: " << *it << " Name: player-" << players_[*it].name_ << " Score: " << players_[*it].score_ << std::endl;
+    }  
 }
