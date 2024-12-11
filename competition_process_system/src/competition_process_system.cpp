@@ -164,7 +164,7 @@ void CompetitionProcessSystem::save() {
 void CompetitionProcessSystem::load() const {
     std::ifstream infile(filename_);
     if (!infile.is_open()) {
-        std::cerr << "Could not open " << filename_ << " for history" << std::endl;
+        std::cerr << "Could not open '" << filename_ << "' for history" << std::endl;
         return;
     }
 
@@ -205,17 +205,24 @@ void CompetitionProcessSystem::load() const {
 }
 
 void CompetitionProcessSystem::clear() const {
-    std::ofstream outfile(filename_);
+    std::cout << "clear history '" << filename_ << "'?" << std::endl;
 
-    if (!outfile.is_open()) {
-        std::cout << "Could not open " << filename_ << "for clear" << std::endl;
-        return;
+    char confirm;
+    std::cin >> confirm;
+
+    if (confirm == 'y' || confirm == 'Y') {
+        std::ofstream outfile(filename_);
+
+        if (!outfile.is_open()) {
+            std::cout << "Could not open " << filename_ << "for clear" << std::endl;
+            return;
+        }
+
+        outfile << "";
+
+        outfile.close();
+        std::cout << "Clear successfully..." << std::endl;
     }
-
-    outfile << "";
-
-    outfile.close();
-    std::cout << "Clear successfully..." << std::endl;
 }
 
 void CompetitionProcessSystem::print_players(const std::vector<int>::iterator& begin, const std::vector<int>::iterator& end) {
