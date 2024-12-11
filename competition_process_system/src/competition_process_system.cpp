@@ -41,6 +41,7 @@ void CompetitionProcessSystem::start() {
 
     const int kRoundNumber = players_.size() / 6;
 
+    std::cin.ignore();
     for (int i = 1; i <= kRoundNumber; ++i) {
         judge();
 
@@ -52,7 +53,6 @@ void CompetitionProcessSystem::start() {
 
         std::cout << "----------------------" << std::endl;
         std::cout << "Please enter any key..." << std::endl;
-        std::cin.ignore();
         std::cin.get();
         
         std::cout << "-------- Round " << i << " Begins --------"<< std::endl;
@@ -72,8 +72,6 @@ void CompetitionProcessSystem::start() {
     }
 
     std::cout << "-------- This Competition Is Over --------" << std::endl;
-    std::cout << "The History Saved..." << std::endl;
-
     std::cout << "Please enter any key..." << std::endl;
     std::cin.get();
 
@@ -159,6 +157,8 @@ void CompetitionProcessSystem::save() {
     outfile << std::endl;
 
     outfile.close();
+
+    std::cout << "The History Saved..." << std::endl;
 }
 
 void CompetitionProcessSystem::load() const {
@@ -167,6 +167,17 @@ void CompetitionProcessSystem::load() const {
         std::cerr << "Could not open " << filename_ << " for history" << std::endl;
         return;
     }
+
+    char head;
+    infile >> head;
+
+    if (infile.eof()) {
+        std::cout << filename_ << " is empty" << std::endl;
+        infile.close();
+        return;
+    }
+
+    infile.putback(head);
 
     const std::vector<std::string> kRank = {"Champion", "Second", "Third"};
     int number_competition = 1;
