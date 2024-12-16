@@ -1,11 +1,10 @@
 #include <iostream>
 
 #include "crr_system.h"
+#include "crr_system_config.h"
 
 int main() {
     CRRSystem crr_system;
-
-    Identity* someone = new Student("name", "password", 123);
 
     crr_system.show_title();
     while (true) {
@@ -17,13 +16,13 @@ int main() {
 
         switch (key) {
             case '1':
-                someone->run();
+                crr_system.login_in(STUDENT_DIR, kStudent);
                 break;
             case '2':
-                // Teacher Logic
+                crr_system.login_in(TEACHER_DIR, kTeacher);
                 break;
             case '3':
-                // Administrator Logic
+                crr_system.login_in(ADMINISTRATOR_DIR, kAdministrator);
                 break;
             case '0':
                 std::cout << "Welcome next time..." << std::endl;
