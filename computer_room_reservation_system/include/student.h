@@ -11,6 +11,16 @@ class Student : public Identity {
 
     void run() override;
 
+    void show_title() override;
+
+    void apply();
+
+    void view_mine();
+
+    void view_all();
+
+    void cancle();
+
     int id_;
 };
 

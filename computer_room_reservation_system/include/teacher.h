@@ -9,6 +9,14 @@ class Teacher : public Identity {
   public:
     Teacher(std::string name, std::string password, int id);
 
+    void run() override;
+
+    void show_title() override;
+
+    void view_all();
+
+    void review(); 
+
     int id_;
 };
 

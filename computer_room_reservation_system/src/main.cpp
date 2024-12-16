@@ -5,6 +5,8 @@
 int main() {
     CRRSystem crr_system;
 
+    Identity* someone = new Student("name", "password", 123);
+
     crr_system.show_title();
     while (true) {
         std::cout << "Please select your identity: "; 
@@ -15,7 +17,7 @@ int main() {
 
         switch (key) {
             case '1':
-                // Student Logic
+                someone->run();
                 break;
             case '2':
                 // Teacher Logic

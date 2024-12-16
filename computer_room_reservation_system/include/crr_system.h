@@ -1,6 +1,8 @@
 #ifndef CRR_SYSTEM
 #define CRR_SYSTEM
 
+#include <student.h>
+
 class CRRSystem {
   public:
     CRRSystem();
