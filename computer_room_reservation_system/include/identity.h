@@ -7,8 +7,11 @@ class Identity {
   public:
     Identity(std::string name, std::string password);
 
-    virtual void run() = 0;
+    virtual ~Identity();
 
+    virtual void run() = 0;
+  
+  protected:
     virtual void show_title() = 0;
 
     std::string name_;

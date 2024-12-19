@@ -4,6 +4,11 @@
 #include <fstream>
 #include <sstream>
 
+#include "administrator.h"
+#include "teacher.h"
+#include "student.h"
+#include "utilities.h"
+
 CRRSystem::CRRSystem() {}
 
 void CRRSystem::show_title() {
@@ -38,18 +43,19 @@ void CRRSystem::login_in(const std::string& filename, IdentifyType type) {
     if (type == kStudent) {
         std::cout << "Please input your student id: ";
         std::cin >> input_id;
-        std::cin.ignore();
     } else if (type == kTeacher) {
         std::cout << "Please input your teacher id: ";
         std::cin >> input_id;
-        std::cin.ignore();
     }
 
+    std::cin.ignore();
     std::cout << "Please input your name: ";
     std::getline(std::cin, input_name);
 
     std::cout << "Please input your password: ";
     std::cin >> input_password;
+
+    Identity* somebody = nullptr;
 
     std::string line;
     if (type == kStudent) {
@@ -64,7 +70,7 @@ void CRRSystem::login_in(const std::string& filename, IdentifyType type) {
             std::getline(line_stream, target_name, ',');
             std::getline(line_stream, target_password, ',');
 
-            if (target_id == input_id && target_name ==input_name && target_password ==input_password) {
+            if (target_id == input_id && target_name == input_name && target_password == input_password) {
                 std::cout << "Student verification passed!" << std::endl;
                 return;
             }
@@ -81,7 +87,7 @@ void CRRSystem::login_in(const std::string& filename, IdentifyType type) {
             std::getline(line_stream, target_name, ',');
             std::getline(line_stream, target_password, ',');
 
-            if (target_id == input_id && target_name ==input_name && target_password ==input_password) {
+            if (target_id == input_id && target_name == input_name && target_password == input_password) {
                 std::cout << "Teacher verification passed!" << std::endl;
                 return;
             }
@@ -96,8 +102,18 @@ void CRRSystem::login_in(const std::string& filename, IdentifyType type) {
             std::getline(line_stream, target_name, ',');
             std::getline(line_stream, target_password, ',');
 
-            if (target_name ==input_name && target_password ==input_password) {
+            if (target_name == input_name && target_password == input_password) {
                 std::cout << "Administrator verification passed!" << std::endl;
+
+                somebody = new Administrator(input_name, input_password);
+
+                utilities::wait_any_key();
+
+                somebody->run();
+
+                delete somebody;
+                somebody = nullptr;
+                
                 return;
             }
         }

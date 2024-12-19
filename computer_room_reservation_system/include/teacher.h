@@ -11,13 +11,14 @@ class Teacher : public Identity {
 
     void run() override;
 
-    void show_title() override;
-
     void view_all();
 
     void review(); 
 
     int id_;
+
+  protected:
+    void show_title() override;
 };
 
 #endif  // TEACHER_H

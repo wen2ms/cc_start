@@ -11,8 +11,6 @@ class Administrator : public Identity {
 
     void run() override;
 
-    void show_title() override;
-
     void add_account();
 
     void view_all_accounts(); 
@@ -20,6 +18,9 @@ class Administrator : public Identity {
     void view_all_rooms(); 
 
     void clear_all_accounts();
+
+  protected:
+    void show_title() override;
 };
 
 #endif  // ADMINISTRATOR_H

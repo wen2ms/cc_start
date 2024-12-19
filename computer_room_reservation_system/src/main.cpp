@@ -2,12 +2,15 @@
 
 #include "crr_system.h"
 #include "crr_system_config.h"
+#include "utilities.h"
 
 int main() {
     CRRSystem crr_system;
 
-    crr_system.show_title();
     while (true) {
+        std::system("clear");
+
+        crr_system.show_title();
         std::cout << "Please select your identity: "; 
 
         char key;
@@ -31,6 +34,8 @@ int main() {
                 std::cout << "Number invalid, please enter again..." << std::endl;
                 break;
         }
+
+        utilities::wait_any_key();
     }
 
     return 0;

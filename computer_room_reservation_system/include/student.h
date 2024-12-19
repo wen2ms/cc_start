@@ -11,8 +11,6 @@ class Student : public Identity {
 
     void run() override;
 
-    void show_title() override;
-
     void apply();
 
     void view_mine();
@@ -22,6 +20,9 @@ class Student : public Identity {
     void cancle();
 
     int id_;
+
+  protected:
+    void show_title() override;
 };
 
 #endif  // STUDENT_H
