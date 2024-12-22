@@ -1,13 +1,18 @@
 #include "student.h"
 
+#include <cstdlib>
 #include <iostream>
+
+#include "utilities.h"
 
 Student::Student(std::string name, std::string password, int id) : Identity(name, password), id_(id) {}
 
 void Student::run() {
-    this->show_title();
-
     while (true) {
+        std::system("clear");
+
+        this->show_title();
+
         std::cout << "Please select your action: "; 
 
         char key;
@@ -16,16 +21,16 @@ void Student::run() {
 
         switch (key) {
             case '1':
-                // this->apply();
+                this->apply();
                 break;
             case '2':
-                // this->view_mine();
+                this->view_mine();
                 break;
             case '3':
-                // this->view_all();
+                this->view_all();
                 break;
             case '4':
-                // this->cancle();
+                this->cancle();
                 break;
             case '0':
                 std::cout << "Logout successful..." << std::endl;
@@ -34,6 +39,8 @@ void Student::run() {
                 std::cout << "Number invalid, please enter again..." << std::endl;
                 break;
         }
+
+        utilities::wait_any_key();
     }
 }
 
@@ -54,3 +61,19 @@ void Student::run() {
     std::cout << "              --------------------------------------------------               " << std::endl;
     std::cout << std::endl;   
  }
+
+void Student::apply() {
+
+}
+
+void Student::view_mine() {
+
+}
+
+void Student::view_all() {
+
+}
+
+void Student::cancle() {
+
+}

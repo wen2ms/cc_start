@@ -72,6 +72,16 @@ void CRRSystem::login_in(const std::string& filename, IdentifyType type) {
 
             if (target_id == input_id && target_name == input_name && target_password == input_password) {
                 std::cout << "Student verification passed!" << std::endl;
+
+                somebody = new Student(input_name, input_password, std::stoi(target_id));
+
+                utilities::wait_any_key();
+
+                somebody->run();
+
+                delete somebody;
+                somebody = nullptr;
+                
                 return;
             }
         }
@@ -89,6 +99,16 @@ void CRRSystem::login_in(const std::string& filename, IdentifyType type) {
 
             if (target_id == input_id && target_name == input_name && target_password == input_password) {
                 std::cout << "Teacher verification passed!" << std::endl;
+
+                somebody = new Teacher(input_name, input_password, std::stoi(input_id));
+
+                utilities::wait_any_key();
+
+                somebody->run();
+
+                delete somebody;
+                somebody = nullptr;
+                
                 return;
             }
         }

@@ -1,13 +1,18 @@
 #include "teacher.h"
 
+#include <cstdlib>
 #include <iostream>
+
+#include "utilities.h"
 
 Teacher::Teacher(std::string name, std::string password, int id) : Identity(name, password), id_(id) {}
 
 void Teacher::run() {
-    this->show_title();
-
     while (true) {
+        std::system("clear");
+
+        this->show_title();
+
         std::cout << "Please select your action: "; 
 
         char key;
@@ -16,10 +21,10 @@ void Teacher::run() {
 
         switch (key) {
             case '1':
-                // this->view_all();
+                this->view_all();
                 break;
             case '2':
-                // this->review();
+                this->review();
                 break;
             case '0':
                 std::cout << "Logout successful..." << std::endl;
@@ -28,6 +33,8 @@ void Teacher::run() {
                 std::cout << "Number invalid, please enter again..." << std::endl;
                 break;
         }
+
+        utilities::wait_any_key();
     }
 }
 
@@ -44,3 +51,11 @@ void Teacher::run() {
     std::cout << "              --------------------------------------------------               " << std::endl;
     std::cout << std::endl;   
  }
+
+void Teacher::view_all() {
+
+}
+
+void Teacher::review() {
+    
+}
