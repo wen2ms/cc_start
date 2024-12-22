@@ -6,6 +6,7 @@
 
 #include "utilities.h"
 #include "crr_system_config.h"
+#include "order.h"
 
 Student::Student(std::string name, std::string password, int id) : Identity(name, password), id_(id) {
     init_computer_rooms();
@@ -136,7 +137,7 @@ void Student::view_mine() {
 }
 
 void Student::view_all() {
-
+    Order order;
 }
 
 void Student::cancle() {
