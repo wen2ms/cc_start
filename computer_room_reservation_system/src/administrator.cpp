@@ -12,6 +12,7 @@
 Administrator::Administrator(std::string name, std::string password) : Identity(name, password) {
     init_students();
     init_teachers();
+    init_computer_rooms();
 }
 
 void Administrator::run() {
@@ -165,7 +166,12 @@ void Administrator::view_all_accounts() {
     }
 }
 
-void Administrator::view_all_rooms() {}
+void Administrator::view_all_rooms() {
+    std::cout << "The computer room information is as follows" << std::endl;
+    for (std::vector<ComputerRoom>::iterator it = computer_rooms_.begin(); it != computer_rooms_.end(); ++it) {
+        std::cout << "Room Id: " << it->room_id_ << "  Room Capacity: " << it->capacity_ << std::endl;
+    }
+}
 
 void Administrator::clear_all_accounts() {}
 
@@ -212,6 +218,22 @@ void Administrator::init_teachers() {
         std::getline(line_stream, password, ',');
 
         teachers_.push_back(Teacher(name, password, std::stoi(id)));
+    }
+
+    infile.close();
+}
+
+void Administrator::init_computer_rooms() {
+    std::ifstream infile(COMPUTER_ROOM_DIR);
+
+    if (!infile.is_open()) {
+        std::cout << "Could not open " << COMPUTER_ROOM_DIR << " for reading" << std::endl;
+        return;
+    }
+
+    ComputerRoom computer_room;
+    while (infile >> computer_room.room_id_ && infile >> computer_room.capacity_) {
+        computer_rooms_.push_back(computer_room);
     }
 
     infile.close();

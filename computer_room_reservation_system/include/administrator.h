@@ -7,6 +7,7 @@
 #include "identity.h"
 #include "student.h"
 #include "teacher.h"
+#include "computer_room.h"
 
 class Administrator : public Identity {
   public:
@@ -28,9 +29,11 @@ class Administrator : public Identity {
   private:
     void init_teachers();
     void init_students();
+    void init_computer_rooms();
 
     std::vector<Student> students_;
     std::vector<Teacher> teachers_;
+    std::vector<ComputerRoom> computer_rooms_;
 };
 
 #endif  // ADMINISTRATOR_H
