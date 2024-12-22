@@ -1,13 +1,18 @@
 #include "administrator.h"
 
+#include <algorithm>
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 #include "utilities.h"
 #include "crr_system_config.h"
 
-Administrator::Administrator(std::string name, std::string password) : Identity(name, password) {}
+Administrator::Administrator(std::string name, std::string password) : Identity(name, password) {
+    init_students();
+    init_teachers();
+}
 
 void Administrator::run() {
     while (true) {
@@ -78,7 +83,7 @@ void Administrator::add_account() {
     }
 
     std::string input_name;
-    std::string input_id;
+    int input_id;
     std::string input_password;
 
     std::string filename;
@@ -90,7 +95,31 @@ void Administrator::add_account() {
         std::cout << "Please input your teacher id: ";
         filename = TEACHER_DIR;
     }
-    std::cin >> input_id;
+
+    while (true) {
+        std::cin >> input_id;
+        if (key == "1") {
+            std::vector<Student>::iterator target_it = std::find_if(students_.begin(), students_.end(), [=](const Student& other) {
+                return input_id == other.id_;
+            });
+
+            if (target_it == students_.end()) {
+                break;
+            } else {
+                std::cout << "The student id is repeated, please enter again: ";
+            }
+        } else if (key == "2") {
+            std::vector<Teacher>::iterator target_it = std::find_if(teachers_.begin(), teachers_.end(), [=](const Teacher& other) {
+                return input_id == other.id_;
+            });
+
+            if (target_it == teachers_.end()) {
+                break;
+            } else {
+                std::cout << "The teacher id is repeated, please enter again: ";
+            }
+        }
+    }
 
     std::cin.ignore();
     std::cout << "Please input your name: ";
@@ -107,6 +136,12 @@ void Administrator::add_account() {
 
     outfile << input_id << ',' << input_name << ',' << input_password << std::endl;
 
+    if (key == "1") {
+        students_.push_back(Student(input_name, input_password, input_id));
+    } else if (key == "2") {
+        teachers_.push_back(Teacher(input_name, input_password, input_id));
+    }
+
     std::cout << "Add successfully!" << std::endl;
 
     outfile.close();
@@ -122,4 +157,52 @@ void Administrator::view_all_rooms() {
 
 void Administrator::clear_all_accounts() {
 
+}
+
+void Administrator::init_students() {
+    std::ifstream infile(STUDENT_DIR);
+
+    if (!infile.is_open()) {
+        std::cout << "Could not open " << STUDENT_DIR << " for reading" << std::endl;
+        return;
+    }
+
+    std::string line;
+    while (std::getline(infile, line)) {
+        std::istringstream line_stream(line);
+
+        std::string id, name, password;
+
+        std::getline(line_stream, id, ',');
+        std::getline(line_stream, name, ',');
+        std::getline(line_stream, password, ',');
+
+        students_.push_back(Student(name, password, std::stoi(id)));
+    }
+
+    infile.close();
+}
+
+void Administrator::init_teachers() {
+    std::ifstream infile(TEACHER_DIR);
+
+    if (!infile.is_open()) {
+        std::cout << "Could not open " << TEACHER_DIR << " for reading" << std::endl;
+        return;
+    }
+
+    std::string line;
+    while (std::getline(infile, line)) {
+        std::istringstream line_stream(line);
+
+        std::string id, name, password;
+
+        std::getline(line_stream, id, ',');
+        std::getline(line_stream, name, ',');
+        std::getline(line_stream, password, ',');
+
+        teachers_.push_back(Teacher(name, password, std::stoi(id)));
+    }
+
+    infile.close();
 }

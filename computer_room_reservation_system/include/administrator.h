@@ -2,8 +2,11 @@
 #define ADMINISTRATOR_H
 
 #include <string>
+#include <vector>
 
 #include "identity.h"
+#include "student.h"
+#include "teacher.h"
 
 class Administrator : public Identity {
   public:
@@ -21,6 +24,13 @@ class Administrator : public Identity {
 
   protected:
     void show_title() override;
+
+  private:
+    void init_teachers();
+    void init_students();
+
+    std::vector<Student> students_;
+    std::vector<Teacher> teachers_;
 };
 
 #endif  // ADMINISTRATOR_H
