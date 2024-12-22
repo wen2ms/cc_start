@@ -4,6 +4,7 @@
 #include <string>
 
 #include "identity.h"
+#include "computer_room.h"
 
 class Student : public Identity {
   public:
@@ -23,6 +24,11 @@ class Student : public Identity {
 
   protected:
     void show_title() override;
+
+  private:
+    void init_computer_rooms();
+
+    std::vector<ComputerRoom> computer_rooms_;
 };
 
 #endif  // STUDENT_H

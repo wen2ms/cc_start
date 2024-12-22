@@ -2,10 +2,14 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <fstream>
 
 #include "utilities.h"
+#include "crr_system_config.h"
 
-Student::Student(std::string name, std::string password, int id) : Identity(name, password), id_(id) {}
+Student::Student(std::string name, std::string password, int id) : Identity(name, password), id_(id) {
+    init_computer_rooms();
+}
 
 void Student::run() {
     while (true) {
@@ -63,7 +67,68 @@ void Student::run() {
  }
 
 void Student::apply() {
+    std::cout << "The computer rooms are open from Monday to Friday!" << std::endl;
+    std::cout << "Please enter your reservation time" << std::endl;
 
+    std::cout << "1. Monday" << std::endl;
+    std::cout << "2. Tuesday" << std::endl;
+    std::cout << "3. Wednesday" << std::endl;
+    std::cout << "4. Tursday" << std::endl;
+    std::cout << "5. Friday" << std::endl;
+
+    std::string date;
+    while (true) {
+        std::cin >> date;
+
+        if (date.compare("5") <= 0 && date.compare("1") >= 0) {
+            break;
+        } else {
+            std::cout << "Number invalid, please enter again..." << std::endl;
+        }
+    }
+
+    std::cout << "Please enter your revervation interval" << std::endl;
+    std::cout << "1. Mornning" << std::endl;
+    std::cout << "2. Afternoon" << std::endl;
+
+    std::string interval;
+    while (true) {
+        std::cin >> interval;
+
+        if (interval == "1" || interval == "2") {
+            break;
+        } else {
+            std::cout << "Number invalid, please enter again..." << std::endl;
+        }
+    }
+
+    std::cout << "Please select computer room" << std::endl;
+    for (std::vector<ComputerRoom>::iterator it = computer_rooms_.begin(); it != computer_rooms_.end(); ++it) {
+        std::cout << "No." << it->room_id_ << " room  Capacity: " << it->capacity_ << std::endl;
+    }
+
+    std::string room_id;
+    while (true) {
+        std::cin >> room_id;
+
+        if (room_id.compare(std::to_string(computer_rooms_.size())) <= 0 && room_id.compare("1") >= 0) {
+            break;
+        } else {
+            std::cout << "Number invalid, please enter again..." << std::endl;
+        }
+    }
+
+    std::cout << "Reservation successfully! Under review..." << std::endl;
+
+    std::ofstream outfile(ORDER_DIR, std::ios::app);
+
+    if (!outfile.is_open()) {
+        std::cout << "Could not open " << ORDER_DIR << " for writing" << std::endl;
+        return;
+    }
+
+    outfile << date << ',' << interval << ',' << id_ << ',' << name_ << ',' << room_id << ',' << true << std::endl;
+    outfile.close();
 }
 
 void Student::view_mine() {
@@ -76,4 +141,20 @@ void Student::view_all() {
 
 void Student::cancle() {
 
+}
+
+void Student::init_computer_rooms() {
+    std::ifstream infile(COMPUTER_ROOM_DIR);
+
+    if (!infile.is_open()) {
+        std::cout << "Could not open " << COMPUTER_ROOM_DIR << " for reading" << std::endl;
+        return;
+    }
+
+    ComputerRoom computer_room;
+    while (infile >> computer_room.room_id_ && infile >> computer_room.capacity_) {
+        computer_rooms_.push_back(computer_room);
+    }
+
+    infile.close();
 }
