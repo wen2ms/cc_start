@@ -173,7 +173,12 @@ void Administrator::view_all_rooms() {
     }
 }
 
-void Administrator::clear_all_accounts() {}
+void Administrator::clear_all_accounts() {
+    std::ofstream outfile(ORDER_DIR, std::ios::trunc);
+
+    outfile.close();
+    std::cout << "Clear successfully!" << std::endl;
+}
 
 void Administrator::init_students() {
     std::ifstream infile(STUDENT_DIR);

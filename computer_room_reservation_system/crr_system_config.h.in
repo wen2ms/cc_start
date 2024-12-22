@@ -2,3 +2,4 @@
 #define TEACHER_DIR "@PROJECT_SOURCE_DIR@/data/teachers.txt"
 #define ADMINISTRATOR_DIR "@PROJECT_SOURCE_DIR@/data/administrators.txt"
 #define COMPUTER_ROOM_DIR "@PROJECT_SOURCE_DIR@/data/computer_rooms.txt"
+#define ORDER_DIR "@PROJECT_SOURCE_DIR@/data/order.txt"
