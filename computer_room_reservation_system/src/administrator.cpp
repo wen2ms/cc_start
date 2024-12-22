@@ -2,12 +2,12 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <sstream>
 
-#include "utilities.h"
 #include "crr_system_config.h"
+#include "utilities.h"
 
 Administrator::Administrator(std::string name, std::string password) : Identity(name, password) {
     init_students();
@@ -20,7 +20,7 @@ void Administrator::run() {
 
         this->show_title();
 
-        std::cout << "Please select your action: "; 
+        std::cout << "Please select your action: ";
 
         char key;
 
@@ -66,7 +66,7 @@ void Administrator::show_title() {
     std::cout << "             |                0. Log out                        |              " << std::endl;
     std::cout << "             |                                                  |              " << std::endl;
     std::cout << "              --------------------------------------------------               " << std::endl;
-    std::cout << std::endl;   
+    std::cout << std::endl;
 }
 
 void Administrator::add_account() {
@@ -99,9 +99,8 @@ void Administrator::add_account() {
     while (true) {
         std::cin >> input_id;
         if (key == "1") {
-            std::vector<Student>::iterator target_it = std::find_if(students_.begin(), students_.end(), [=](const Student& other) {
-                return input_id == other.id_;
-            });
+            std::vector<Student>::iterator target_it =
+                std::find_if(students_.begin(), students_.end(), [=](const Student& other) { return input_id == other.id_; });
 
             if (target_it == students_.end()) {
                 break;
@@ -109,9 +108,8 @@ void Administrator::add_account() {
                 std::cout << "The student id is repeated, please enter again: ";
             }
         } else if (key == "2") {
-            std::vector<Teacher>::iterator target_it = std::find_if(teachers_.begin(), teachers_.end(), [=](const Teacher& other) {
-                return input_id == other.id_;
-            });
+            std::vector<Teacher>::iterator target_it =
+                std::find_if(teachers_.begin(), teachers_.end(), [=](const Teacher& other) { return input_id == other.id_; });
 
             if (target_it == teachers_.end()) {
                 break;
@@ -130,7 +128,7 @@ void Administrator::add_account() {
 
     std::ofstream outfile(filename, std::ios_base::app);
     if (!outfile.is_open()) {
-        std::cout << "Could not open " << '\'' << filename << '\''  << " for writing" << std::endl;
+        std::cout << "Could not open " << '\'' << filename << '\'' << " for writing" << std::endl;
         return;
     }
 
@@ -148,16 +146,28 @@ void Administrator::add_account() {
 }
 
 void Administrator::view_all_accounts() {
+    std::cout << "Please select a type" << std::endl;
+    std::cout << "1. View all students" << std::endl;
+    std::cout << "2. View all teachers" << std::endl;
 
+    std::string type;
+    std::cin >> type;
+    if (type == "1") {
+        std::for_each(students_.begin(), students_.end(), [=](const Student& student) {
+            std::cout << "Student Id: " << student.id_ << "  Name: " << student.name_ << "  Password: " << student.password_
+                      << std::endl;
+        });
+    } else if (type == "2") {
+        std::for_each(teachers_.begin(), teachers_.end(), [=](const Teacher& teacher) {
+            std::cout << "Teacher Id: " << teacher.id_ << "  Name: " << teacher.name_ << "  Password: " << teacher.password_
+                      << std::endl;
+        });
+    }
 }
 
-void Administrator::view_all_rooms() {
+void Administrator::view_all_rooms() {}
 
-}
-
-void Administrator::clear_all_accounts() {
-
-}
+void Administrator::clear_all_accounts() {}
 
 void Administrator::init_students() {
     std::ifstream infile(STUDENT_DIR);

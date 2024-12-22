@@ -10,12 +10,12 @@ class Identity {
     virtual ~Identity();
 
     virtual void run() = 0;
-  
-  protected:
-    virtual void show_title() = 0;
 
     std::string name_;
     std::string password_;
+  
+  protected:
+    virtual void show_title() = 0;
 };
 
 #endif  // IDENTITY_H
