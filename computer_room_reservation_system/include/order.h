@@ -4,6 +4,13 @@
 #include <vector>
 #include <map>
 
+enum OrderStatus {
+    kFailed = -1,
+    kCancelled,
+    kReviewing,
+    kSuccessful
+};
+
 class Order {
   public:
     Order();
