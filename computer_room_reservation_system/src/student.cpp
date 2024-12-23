@@ -166,7 +166,7 @@ void Student::view_all() {
     std::vector<std::string> order_status_table = {"failed", "canceled", "reviewing", "successful"};
     int order_index = 0;
     for (std::vector<std::map<std::string, std::string>>::iterator it = all_records.begin(); it != all_records.end(); ++it) {
-        std::cout << order_index++ << ".";
+        std::cout << ++order_index << ".";
         std::cout << "  Reservation time: " << order_date_table[std::stoi(it->at("date")) - 1];
         std::cout << "  Interval: " << (it->at("interval") == "1" ? "Morning" : "Afternoon");
         std::cout << "  Student Id: " << it->at("student id");

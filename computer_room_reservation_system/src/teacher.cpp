@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "utilities.h"
+#include "order.h"
 
 Teacher::Teacher(std::string name, std::string password, int id) : Identity(name, password), id_(id) {}
 
@@ -53,7 +54,27 @@ void Teacher::run() {
  }
 
 void Teacher::view_all() {
+    Order all_orders;
+    std::vector<std::map<std::string, std::string>> all_records(all_orders.order_map_);
 
+    if (all_records.empty()) {
+        std::cout << "No reservation!" << std::endl;
+        return;
+    }
+
+    std::vector<std::string> order_date_table = {"Monday", "Tuesday", "Wednesday", "Tursday", "Friday"};
+    std::vector<std::string> order_status_table = {"failed", "canceled", "reviewing", "successful"};
+    int order_index = 0;
+    for (std::vector<std::map<std::string, std::string>>::iterator it = all_records.begin(); it != all_records.end(); ++it) {
+        std::cout << ++order_index << ".";
+        std::cout << "  Reservation time: " << order_date_table[std::stoi(it->at("date")) - 1];
+        std::cout << "  Interval: " << (it->at("interval") == "1" ? "Morning" : "Afternoon");
+        std::cout << "  Student Id: " << it->at("student id");
+        std::cout << "  Student Name: " << it->at("student name");
+        std::cout << "  Room Id: " << it->at("room id");
+        std::cout << "  Status: " << order_status_table[std::stoi(it->at("status")) + 1] << std::endl;
+        std::cout << "------------------------------------------------------------------" << std::endl;
+    }
 }
 
 void Teacher::review() {
