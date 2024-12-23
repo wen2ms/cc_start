@@ -1,5 +1,5 @@
 date,interval,student id,student name,room id,status
 1,1,123,a,1,0
-2,2,2013211,John Linda,1,1
-1,1,111,asd,1,1
+2,2,2013211,John Linda,1,-1
+1,1,111,asd,1,2
 1,1,123,a,1,0

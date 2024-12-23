@@ -1,12 +1,12 @@
 #include "student.h"
 
 #include <cstdlib>
-#include <iostream>
 #include <fstream>
+#include <iostream>
 
-#include "utilities.h"
 #include "crr_system_config.h"
 #include "order.h"
+#include "utilities.h"
 
 Student::Student(std::string name, std::string password, int id) : Identity(name, password), id_(id) {
     init_computer_rooms();
@@ -18,7 +18,7 @@ void Student::run() {
 
         this->show_title();
 
-        std::cout << "Please select your action: "; 
+        std::cout << "Please select your action: ";
 
         char key;
 
@@ -49,7 +49,7 @@ void Student::run() {
     }
 }
 
- void Student::show_title() {
+void Student::show_title() {
     std::cout << "Welcome student " << '\'' << name_ << '\'' << std::endl;
     std::cout << "              --------------------------------------------------               " << std::endl;
     std::cout << "             |                                                  |              " << std::endl;
@@ -64,8 +64,8 @@ void Student::run() {
     std::cout << "             |                0. Log out                        |              " << std::endl;
     std::cout << "             |                                                  |              " << std::endl;
     std::cout << "              --------------------------------------------------               " << std::endl;
-    std::cout << std::endl;   
- }
+    std::cout << std::endl;
+}
 
 void Student::apply() {
     std::cout << "The computer rooms are open from Monday to Friday!" << std::endl;
@@ -128,7 +128,8 @@ void Student::apply() {
         return;
     }
 
-    outfile << date << ',' << interval << ',' << id_ << ',' << name_ << ',' << room_id << ',' << OrderStatus::kReviewing << std::endl;
+    outfile << date << ',' << interval << ',' << id_ << ',' << name_ << ',' << room_id << ',' << OrderStatus::kReviewing
+            << std::endl;
     outfile.close();
 }
 
@@ -136,20 +137,25 @@ void Student::view_mine() {
     Order all_orders;
     std::vector<std::map<std::string, std::string>> all_records(all_orders.order_map_);
 
-    if (all_records.empty()) {
-        std::cout << "No reservation!" << std::endl;
-        return;
-    }
-
     std::vector<std::string> order_date_table = {"Monday", "Tuesday", "Wednesday", "Tursday", "Friday"};
     std::vector<std::string> order_status_table = {"failed", "canceled", "reviewing", "successful"};
+
+    bool is_empty = true;
+
     for (std::vector<std::map<std::string, std::string>>::iterator it = all_records.begin(); it != all_records.end(); ++it) {
         if (std::stoi(it->at("student id")) == id_) {
             std::cout << "Reservation time: " << order_date_table[std::stoi(it->at("date")) - 1];
             std::cout << "  Interval: " << (it->at("interval") == "1" ? "Morning" : "Afternoon");
             std::cout << "  Room Id: " << it->at("room id");
             std::cout << "  Status: " << order_status_table[std::stoi(it->at("status")) + 1] << std::endl;
+
+            is_empty = false;
         }
+    }
+
+    if (is_empty) {
+        std::cout << "No your reservation!" << std::endl;
+        return;
     }
 }
 
@@ -181,11 +187,6 @@ void Student::cancle() {
     Order all_orders;
     std::vector<std::map<std::string, std::string>> all_records(all_orders.order_map_);
 
-    if (all_records.empty()) {
-        std::cout << "No reservation!" << std::endl;
-        return;
-    }
-
     std::vector<std::string> order_date_table = {"Monday", "Tuesday", "Wednesday", "Tursday", "Friday"};
     std::cout << "Only canceled and successful orders can be deleted!" << std::endl;
     std::cout << "---------------------------------------------------" << std::endl;
@@ -203,6 +204,11 @@ void Student::cancle() {
 
             candidate_orders.push_back(it - all_records.begin());
         }
+    }
+
+    if (candidate_order_index == 0) {
+        std::cout << "No reservation you can cancel!" << std::endl;
+        return;
     }
 
     std::cout << "Please enter the orders id, 0 return: ";

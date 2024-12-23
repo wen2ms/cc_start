@@ -78,5 +78,67 @@ void Teacher::view_all() {
 }
 
 void Teacher::review() {
-    
+    Order all_orders;
+    std::vector<std::map<std::string, std::string>> all_records(all_orders.order_map_);
+
+    std::vector<std::string> order_date_table = {"Monday", "Tuesday", "Wednesday", "Tursday", "Friday"};
+    std::cout << "---------------------------------------------------" << std::endl;
+
+    std::vector<int> candidate_orders;
+    int candidate_order_index = 0;
+    for (std::vector<std::map<std::string, std::string>>::iterator it = all_records.begin(); it != all_records.end(); ++it) {
+        if (it->at("status") == "1") {
+            std::cout << ++candidate_order_index << ".";
+            std::cout << "  Reservation time: " << order_date_table[std::stoi(it->at("date")) - 1];
+            std::cout << "  Interval: " << (it->at("interval") == "1" ? "Morning" : "Afternoon");
+            std::cout << "  Room Id: " << it->at("room id");
+            std::cout << "  Status: " << "reviewing" << std::endl;
+            std::cout << "---------------------------------------------------" << std::endl;
+
+            candidate_orders.push_back(it - all_records.begin());
+        }
+    }
+
+    if (candidate_order_index == 0) {
+        std::cout << "No reviewing reservation!" << std::endl;
+        return;
+    }
+
+    std::cout << "Please enter the review orders id, 0 return: ";
+    while (true) {
+        std::string input_index;
+        std::cin >> input_index;
+
+        if (input_index == "0") {
+            std::cout << "Return successfully!" << std::endl;
+            break;
+        } else if (input_index.compare("0") < 0 || input_index.compare(std::to_string(candidate_order_index)) > 0) {
+            std::cout << "Number invalid, please enter again..." << std::endl;
+            continue;
+        }
+
+        std::cout << "Please enter the audit result" << std::endl;
+        std::cout << "1. successful  2. failed" << std::endl;
+
+        while (true) {
+            std::string review_result;
+            std::cin >> review_result;
+
+            if (review_result != "1" && review_result != "2") {
+                std::cout << "Number invalid, please enter again..." << std::endl;
+            } else {
+                int real_index = candidate_orders[std::stoi(input_index) - 1];
+                if (review_result == "2") {
+                    all_orders.order_map_[real_index]["status"] = std::to_string(OrderStatus::kFailed);
+                } else {
+                    all_orders.order_map_[real_index]["status"] = std::to_string(OrderStatus::kSuccessful);
+                }
+                all_orders.update();
+                std::cout << "Review completed!" << std::endl;
+                break;
+            }
+        }
+
+        break;
+    } 
 }
