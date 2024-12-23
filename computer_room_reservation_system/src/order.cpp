@@ -1,10 +1,9 @@
 #include "order.h"
 
 #include <fstream>
-#include <sstream>
 #include <iostream>
-#include <string>
 #include <queue>
+#include <string>
 
 #include "crr_system_config.h"
 
@@ -42,5 +41,19 @@ Order::Order() {
 }
 
 void Order::update() {
+    std::ofstream outfile(ORDER_DIR);
 
+    if (!outfile.is_open()) {
+        std::cout << "Could not open " << ORDER_DIR << std::endl;
+        return;
+    }
+
+    outfile << "date,interval,student id,student name,room id,status" << std::endl;
+
+    for (std::vector<std::map<std::string, std::string>>::iterator it = order_map_.begin(); it != order_map_.end(); ++it) {
+        outfile << it->at("date") << "," << it->at("interval") << "," << it->at("student id") << "," << it->at("student name")
+                << "," << it->at("room id") << "," << it->at("status") << std::endl;
+    }
+
+    outfile.close();
 }

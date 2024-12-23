@@ -142,7 +142,7 @@ void Student::view_mine() {
     }
 
     std::vector<std::string> order_date_table = {"Monday", "Tuesday", "Wednesday", "Tursday", "Friday"};
-    std::vector<std::string> order_status_table = {"failed", "cancelled", "reviewing", "successful"};
+    std::vector<std::string> order_status_table = {"failed", "canceled", "reviewing", "successful"};
     for (std::vector<std::map<std::string, std::string>>::iterator it = all_records.begin(); it != all_records.end(); ++it) {
         if (std::stoi(it->at("student id")) == id_) {
             std::cout << "Reservation time: " << order_date_table[std::stoi(it->at("date")) - 1];
@@ -163,10 +163,10 @@ void Student::view_all() {
     }
 
     std::vector<std::string> order_date_table = {"Monday", "Tuesday", "Wednesday", "Tursday", "Friday"};
-    std::vector<std::string> order_status_table = {"failed", "cancelled", "reviewing", "successful"};
-    int index = 0;
+    std::vector<std::string> order_status_table = {"failed", "canceled", "reviewing", "successful"};
+    int order_index = 0;
     for (std::vector<std::map<std::string, std::string>>::iterator it = all_records.begin(); it != all_records.end(); ++it) {
-        std::cout << index++;
+        std::cout << order_index++ << ".";
         std::cout << "  Reservation time: " << order_date_table[std::stoi(it->at("date")) - 1];
         std::cout << "  Interval: " << (it->at("interval") == "1" ? "Morning" : "Afternoon");
         std::cout << "  Student Id: " << it->at("student id");
@@ -178,7 +178,52 @@ void Student::view_all() {
 }
 
 void Student::cancle() {
+    Order all_orders;
+    std::vector<std::map<std::string, std::string>> all_records(all_orders.order_map_);
 
+    if (all_records.empty()) {
+        std::cout << "No reservation!" << std::endl;
+        return;
+    }
+
+    std::vector<std::string> order_date_table = {"Monday", "Tuesday", "Wednesday", "Tursday", "Friday"};
+    std::cout << "Only canceled and successful orders can be deleted!" << std::endl;
+    std::cout << "---------------------------------------------------" << std::endl;
+
+    std::vector<int> candidate_orders;
+    int candidate_order_index = 0;
+    for (std::vector<std::map<std::string, std::string>>::iterator it = all_records.begin(); it != all_records.end(); ++it) {
+        if (std::stoi(it->at("student id")) == id_ && (it->at("status") == "1" || it->at("status") == "2")) {
+            std::cout << ++candidate_order_index << ".";
+            std::cout << "  Reservation time: " << order_date_table[std::stoi(it->at("date")) - 1];
+            std::cout << "  Interval: " << (it->at("interval") == "1" ? "Morning" : "Afternoon");
+            std::cout << "  Room Id: " << it->at("room id");
+            std::cout << "  Status: " << (it->at("status") == "1" ? "reviewing" : "successful") << std::endl;
+            std::cout << "---------------------------------------------------" << std::endl;
+
+            candidate_orders.push_back(it - all_records.begin());
+        }
+    }
+
+    std::cout << "Please enter the orders id, 0 return: ";
+    while (true) {
+        std::string input_index;
+        std::cin >> input_index;
+
+        if (input_index == "0") {
+            std::cout << "Return successfully!" << std::endl;
+            break;
+        } else if (input_index.compare("0") < 0 || input_index.compare(std::to_string(candidate_order_index)) > 0) {
+            std::cout << "Number invalid, please enter again..." << std::endl;
+            continue;
+        }
+
+        int real_index = candidate_orders[std::stoi(input_index) - 1];
+        all_orders.order_map_[real_index]["status"] = std::to_string(OrderStatus::kCanceled);
+        all_orders.update();
+        std::cout << "Cancel successfully!" << std::endl;
+        break;
+    }
 }
 
 void Student::init_computer_rooms() {

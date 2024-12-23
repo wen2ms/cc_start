@@ -6,7 +6,7 @@
 
 enum OrderStatus {
     kFailed = -1,
-    kCancelled,
+    kCanceled,
     kReviewing,
     kSuccessful
 };
