@@ -1,7 +1,11 @@
+# VSCode
 .vscode/
 
 **/test
+*.out
 
+# MacOS
 **/.DS_Store
 
+# build
 build/

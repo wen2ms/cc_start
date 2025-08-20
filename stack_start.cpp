@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
         basic_stack.push(i + 1);
     }
 
-    std::cout << "The stack size: " << basic_stack.size() << std::endl;
+    std::cout << "The stack size: " << basic_stack.size() << '\n';
 
     std::cout << "The top element of the stack: ";
     while (!basic_stack.empty()) {
@@ -26,7 +26,10 @@ int main(int argc, char* argv[]) {
 
         basic_stack.pop();
     }
-    std::cout << std::endl;
+    std::cout << '\n';
+
+    // segmentation fault
+    // basic_stack.pop();
 
     std::cout << "------------------------------\n";
 
