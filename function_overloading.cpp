@@ -2,13 +2,17 @@
 #include <iostream>
 #include <string>
 
+void display(std::string message) {
+    std::cout << "Message" << '\n';
+}
+
 void display(const std::string& message) {
-    std::cout << "Message: " << message << std::endl;
+    std::cout << "Message: " << message << '\n';
 }
 
 void display(const std::string& message, int repeat_times) {
     for (int i = 0; i < repeat_times; i++)
-        std::cout << "Message" << i + 1 << ": " << message << std::endl;
+        std::cout << "Message" << i + 1 << ": " << message << '\n';
 }
 
 int main(int argc, char* argv[]) {
@@ -23,7 +27,8 @@ int main(int argc, char* argv[]) {
     std::string message = argv[1];
 
     if (argc == 2) {
-        display(message);
+        // Ambiguity
+        // display(message);
     } else if (argc == 3) {
         display(message, std::atoi(argv[2]));
     }

@@ -1,5 +1,7 @@
 #include <iostream>
 
+class Creature {};
+
 class Animal {
   public:
     explicit Animal(int num) {
@@ -9,7 +11,7 @@ class Animal {
     static int age_;
 };
 
-class Sheep : virtual public Animal {
+class Sheep : virtual public Animal, virtual public Creature {
   public:
     Sheep() : Animal(1) {}
 };
