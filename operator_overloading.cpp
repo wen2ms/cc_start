@@ -4,27 +4,29 @@ class Point {
   public:
     Point(double x = 0, double y = 0) : x_(x), y_(y) {}
 
-    Point operator+(const Point& point) {
-        return Point(x_ + point.x_, y_ + point.y_);
+    Point operator+(const Point& point) const {
+        return {x_ + point.x_, y_ + point.y_};
     }
 
+    // operator overloading must have class, struct or enum operands
+    // Point& operator++() is a member function, so the first operands is implicitly *this
     Point& operator++() {
-        x_++;
-        y_++;
+        ++x_;
+        ++y_;
         return *this;
     }
 
     Point operator++(int) {
         Point temp = *this;
 
-        x_++;
-        y_++;
+        ++x_;
+        ++y_;
 
         return temp;
     }
 
-    bool operator==(const Point& point) {
-        return (x_ == point.x_ && y_ == point.y_) ? true : false;
+    bool operator==(const Point& point) const {
+        return x_ == point.x_ && y_ == point.y_;
     }
 
     friend std::ostream& operator<<(std::ostream& out, const Point& point) {
@@ -39,7 +41,8 @@ int main() {
     std::cout << "I generated an example of operator overloading.\n";
     std::cout << "----------------------\n";
 
-    Point point1(0, 0), point2(1, 1);
+    Point point1(0, 0);
+    Point point2(1, 1);
 
     std::cout << "Point1 + Point2 = " << point1 + point2 << '\n';
     std::cout << "Point1 ++ = " << point1++ << "   ++ Point1 = " << ++point1 << '\n';
