@@ -20,7 +20,7 @@ int main() {
     std::cout << "I generated an example of constructor and destructor example.\n";
     std::cout << "------------------------------\n";
 
-    Person* person = new Person("Anna Emily", 28);
+    auto* person = new Person("Anna Emily", 28);
 
     delete person;
 

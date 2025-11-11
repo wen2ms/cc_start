@@ -3,23 +3,32 @@
 
 class Animal {
   public:
-    Animal(std::string name = "Unknown") : name_(name) {}
+    explicit Animal(std::string name = "Unknown") : name_(name) {}
 
     virtual ~Animal() {}
 
-    virtual void get_name() const {
+    virtual void name() const {
         std::cout << "This animal's name: " << name_ << '\n';
     }
 
+    virtual void say(const std::string& message = "hello") const {
+        std::cout << message << '\n';
+    }
+
+  protected:
     std::string name_;
 };
 
 class Dog : public Animal {
   public:
-    Dog(std::string name = "Unknown dog") : Animal(name) {}
+    explicit Dog(std::string name = "Unknown dog") {}
 
-    void get_name() const override {
+    void name() const override {
         std::cout << "This dog's name: " << name_ << '\n';
+    }
+
+    void say(const std::string& message = "world") const override {
+        std::cout << message << '\n';
     }
 };
 
@@ -28,10 +37,16 @@ int main() {
     std::cout << "------------------------------\n";
 
     Animal* dog_ptr = new Dog("Dobernman");
-    Animal* animal_ptr = new Animal();
+    auto* animal_ptr = new Animal;
 
-    animal_ptr->get_name();
-    dog_ptr->get_name();
+    animal_ptr->name();
+    dog_ptr->name();
+
+    Dog dog;
+    Animal& animal = dog;
+
+    dog.say();
+    animal.say();
 
     delete animal_ptr;
     delete dog_ptr;
